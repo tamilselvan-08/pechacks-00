@@ -1,0 +1,794 @@
+<!--
+  ============================================================
+  PEC HACKS — GALLERY SECTION (drop-in replacement)
+  ============================================================
+  INTEGRATION NOTES (read before pasting into your site):
+
+  1. This is ONLY the <section id="pec-gallery"> block plus its
+     scoped <style> and <script>. Paste the <section> where your
+     old gallery lived, and paste the <style>/<script> into your
+     existing stylesheet/JS bundle (or keep inline — everything
+     here is namespaced under .pgal- classes / #pec-gallery so it
+     will not bleed into or clash with other sections).
+
+  2. Fonts/colors are ASSUMPTIONS read off your screenshots:
+     - Display font guessed as a Chakra-Petch-style angular font
+       (loaded from Google Fonts below as a fallback). If your
+       real site already loads a custom font for "PEC HACKS 4.0",
+       replace --font-display with that font-family instead of
+       the Google Fonts import.
+     - Cyan accent guessed at #2fd0e0 based on the card borders in
+       your process section screenshot. Swap --pec-cyan to your
+       exact token if you have one (CSS var, Tailwind config, etc).
+     - Black is set to #050505 per your explicit spec.
+
+  3. Replace the `galleryItems` array in the script with your real
+     event photos, titles, descriptions, years, categories.
+
+  4. No Grid/Masonry used. Two independently GSAP-driven rows,
+     opposite directions, true infinite loop (content duplicated
+     once per row, loop resets at -50% with no visible jump).
+
+  5. Click → FLIP-style animation: the real card animates from its
+     live on-screen position/size to a centered 70vw preview using
+     getBoundingClientRect() deltas, not a fullscreen takeover.
+     Closing reverses the same transform back to the exact spot.
+  ============================================================
+-->
+
+<!--
+  Page-level reset — only needed if your real site doesn't already
+  have one. Without this, the browser's default white body background
+  and 8px margin show through below/around the section, which is the
+  white-space gap in the mobile screenshot. If your site already resets
+  html/body, skip this block — don't fight your own global CSS with it.
+-->
+<style>
+  html, body{ margin:0; padding:0; background:#050505; }
+</style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<section id="pec-gallery" class="pgal-section">
+
+  <div class="pgal-glow"></div>
+  <canvas class="pgal-particles" id="pgalParticles"></canvas>
+
+  <div class="pgal-header">
+    <h2 class="pgal-title">Gallery</h2>
+    <p class="pgal-sub">Moments from PEC HACKS</p>
+  </div>
+
+  <div class="pgal-field">
+    <div class="pgal-row-mask">
+      <div class="pgal-track" id="pgalTrackTop"></div>
+    </div>
+    <div class="pgal-row-mask pgal-row-offset">
+      <div class="pgal-track" id="pgalTrackBottom"></div>
+    </div>
+  </div>
+
+  <!-- Lightbox / centered preview -->
+  <div class="pgal-backdrop" id="pgalBackdrop"></div>
+  <div class="pgal-preview" id="pgalPreview" aria-hidden="true">
+    <div class="pgal-preview-glass">
+      <button class="pgal-close" id="pgalClose" aria-label="Close preview">&times;</button>
+      <div class="pgal-preview-media">
+        <img id="pgalPreviewImg" src="" alt="">
+      </div>
+      <div class="pgal-preview-meta">
+        <div class="pgal-meta-row">
+          <h3 id="pgalPreviewTitle">Title</h3>
+          <span class="pgal-year" id="pgalPreviewYear">2026</span>
+        </div>
+        <p id="pgalPreviewDesc">Description</p>
+        <span class="pgal-cat" id="pgalPreviewCat">Category</span>
+      </div>
+      <button class="pgal-nav pgal-prev" id="pgalPrev" aria-label="Previous">&#8249;</button>
+      <button class="pgal-nav pgal-next" id="pgalNext" aria-label="Next">&#8250;</button>
+    </div>
+  </div>
+
+</section>
+
+<style>
+  #pec-gallery{
+    --pec-black: #050505;
+    --pec-cyan: #2fd0e0;
+    --pec-cyan-dim: rgba(47, 208, 224, 0.35);
+    --pec-cyan-glow: rgba(47, 208, 224, 0.18);
+    --ink: #f5f7f8;
+    --ink-dim: rgba(245, 247, 248, 0.6);
+    --font-display: 'Chakra Petch', 'Arial Narrow', sans-serif;
+    --font-body: 'Sora', 'Segoe UI', sans-serif;
+
+    position: relative;
+    background: var(--pec-black);
+    padding: 12vh 0 14vh;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  #pec-gallery *{ box-sizing: border-box; }
+
+  .pgal-glow{
+    position:absolute;
+    inset:0;
+    z-index:0;
+    pointer-events:none;
+    background: radial-gradient(ellipse 55% 40% at 50% 38%, var(--pec-cyan-glow), transparent 70%);
+    opacity:0.7;
+  }
+
+  .pgal-particles{
+    position:absolute;
+    inset:0;
+    z-index:0;
+    pointer-events:none;
+    width:100%;
+    height:100%;
+  }
+
+  .pgal-header{
+    position:relative;
+    z-index:2;
+    text-align:center;
+    margin-bottom: 9vh;
+  }
+  .pgal-title{
+    font-family: var(--font-display);
+    font-size: clamp(2.4rem, 6vw, 3.6rem);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+    margin:0;
+  }
+  .pgal-sub{
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    margin-top: 14px;
+  }
+
+  /* ---------------- ROWS / MARQUEE ---------------- */
+
+  .pgal-field{
+    position:relative;
+    z-index:2;
+    display:flex;
+    flex-direction:column;
+    gap: 34px;
+    perspective: 1400px;
+  }
+
+  .pgal-row-mask{
+    width:100%;
+    overflow:hidden;
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+  }
+
+  .pgal-row-offset{
+    margin-left: 8vw; /* breaks row alignment, per spec */
+  }
+
+  .pgal-track{
+    display:flex;
+    gap: 22px;
+    width: max-content;
+    will-change: transform;
+  }
+
+  /* ---------------- CARDS ---------------- */
+
+  .pgal-card{
+    position:relative;
+    flex: 0 0 auto;
+    border-radius: 24px;
+    cursor: pointer;
+    transform-style: preserve-3d;
+  }
+
+  .pgal-card-float{
+    width:100%;
+    height:100%;
+    animation: pgalFloat var(--dur, 8s) ease-in-out infinite;
+    animation-delay: var(--delay, 0s);
+  }
+
+  @keyframes pgalFloat{
+    0%,100%{ transform: translateY(0) rotate(var(--rot, 0deg)) scale(1); }
+    50%{ transform: translateY(var(--float-y, -8px)) rotate(calc(var(--rot,0deg) * -1)) scale(1.015); }
+  }
+
+  .pgal-card-inner{
+    position:relative;
+    width:100%;
+    height:100%;
+    border-radius: 24px;
+    overflow:hidden;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--pec-cyan-dim);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.06) inset,
+      0 25px 50px -20px rgba(0,0,0,0.8),
+      0 0 24px -6px var(--pec-cyan-glow);
+    transition: box-shadow 0.4s ease, border-color 0.4s ease, opacity 0.4s ease, filter 0.4s ease;
+  }
+
+  .pgal-card img{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit: cover;
+    opacity: 0.9;
+    transition: opacity 0.4s ease, transform 0.7s cubic-bezier(.16,1,.3,1);
+  }
+
+  .pgal-card .pgal-sheen{
+    position:absolute;
+    inset:0;
+    background: linear-gradient(120deg, rgba(255,255,255,0.14), transparent 40%, transparent 70%, var(--pec-cyan-glow));
+    mix-blend-mode: screen;
+    pointer-events:none;
+  }
+
+  .pgal-card .pgal-sweep{
+    position:absolute;
+    top:0; left:-140%;
+    width:65%;
+    height:100%;
+    background: linear-gradient(78deg, transparent 0%, rgba(255,255,255,0.22) 45%, rgba(120,220,235,0.32) 55%, transparent 100%);
+    transform: skewX(-16deg);
+    pointer-events:none;
+    transition: left 0.85s cubic-bezier(.16,1,.3,1);
+    mix-blend-mode: screen;
+  }
+
+  /* hover state (desktop / hover-capable pointers only, gated in JS via matchMedia) */
+  .pgal-card.is-hovering .pgal-card-inner{
+    border-color: rgba(150, 230, 245, 0.75);
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.1) inset,
+      0 45px 80px -20px rgba(0,0,0,0.85),
+      0 0 50px 4px var(--pec-cyan-glow);
+  }
+  .pgal-card.is-hovering img{ opacity:1; }
+  .pgal-card.is-hovering .pgal-sweep{ left: 130%; }
+
+  /* siblings in the same row dim slightly so the hovered card reads as focused */
+  .pgal-track:has(.pgal-card.is-hovering) .pgal-card:not(.is-hovering) .pgal-card-inner{
+    opacity: 0.62;
+    filter: saturate(0.75);
+  }
+
+  .pgal-tap-hint{
+    position:absolute;
+    right:12px;
+    bottom:10px;
+    font-family: var(--font-body);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.7);
+    background: rgba(0,0,0,0.35);
+    border: 1px solid var(--pec-cyan-dim);
+    padding: 4px 8px;
+    border-radius: 999px;
+    pointer-events:none;
+  }
+
+  /* card being previewed: hide original, keep its layout space */
+  .pgal-card.is-open{
+    visibility: hidden;
+  }
+
+  /* ---------------- BACKDROP + PREVIEW ---------------- */
+
+  .pgal-backdrop{
+    position: fixed;
+    inset:0;
+    background: rgba(0,0,0,0.75);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    opacity:0;
+    pointer-events:none;
+    z-index: 40;
+    transition: opacity 0.5s ease;
+  }
+  .pgal-backdrop.active{
+    opacity:1;
+    pointer-events:auto;
+  }
+
+  .pgal-preview{
+    position: fixed;
+    z-index: 50;
+    top:0; left:0;
+    width: 0; height:0;
+    pointer-events:none;
+    opacity:0;
+  }
+  .pgal-preview.active{ pointer-events:auto; }
+
+  .pgal-preview-glass{
+    position:absolute;
+    width:100%;
+    height:100%;
+    border-radius: 24px;
+    overflow:hidden;
+    background: rgba(10,12,14,0.7);
+    border: 1px solid var(--pec-cyan-dim);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 40px 100px -30px rgba(0,0,0,0.9), 0 0 60px -10px var(--pec-cyan-glow);
+    display:flex;
+    flex-direction:column;
+  }
+
+  .pgal-preview-media{
+    position:relative;
+    width:100%;
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow:hidden;
+  }
+  .pgal-preview-media img{
+    width:100%; height:100%;
+    object-fit: cover;
+    opacity:0;
+    transition: opacity 0.35s ease;
+  }
+  .pgal-preview-media img.loaded{ opacity:1; }
+
+  .pgal-preview-meta{
+    flex: 0 0 auto;
+    padding: 20px 26px 22px;
+    font-family: var(--font-body);
+    color: var(--ink);
+    opacity:0;
+    transform: translateY(8px);
+    transition: opacity 0.4s ease 0.15s, transform 0.4s ease 0.15s;
+  }
+  .pgal-preview.reveal-meta .pgal-preview-meta{ opacity:1; transform: translateY(0); }
+
+  .pgal-meta-row{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap: 12px;
+  }
+  .pgal-meta-row h3{
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    margin:0;
+    letter-spacing: 0.01em;
+  }
+  .pgal-year{
+    font-size: 0.8rem;
+    color: var(--pec-cyan);
+    letter-spacing: 0.06em;
+  }
+  #pgalPreviewDesc{
+    margin: 8px 0 10px;
+    font-size: 0.88rem;
+    color: var(--ink-dim);
+    line-height:1.5;
+  }
+  .pgal-cat{
+    display:inline-block;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--pec-cyan);
+    border: 1px solid var(--pec-cyan-dim);
+    padding: 4px 10px;
+    border-radius: 999px;
+  }
+
+  .pgal-close{
+    position:absolute;
+    top: 14px; right: 14px;
+    z-index: 5;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.45);
+    border: 1px solid var(--pec-cyan-dim);
+    color: var(--ink);
+    font-size: 20px;
+    line-height:1;
+    cursor:pointer;
+    opacity:0;
+    transition: opacity 0.3s ease 0.2s, background 0.2s ease;
+  }
+  .pgal-close:hover{ background: rgba(47,208,224,0.18); }
+  .pgal-preview.reveal-meta .pgal-close{ opacity:1; }
+
+  .pgal-nav{
+    position:absolute;
+    top:50%;
+    transform: translateY(-50%);
+    z-index:5;
+    width:44px; height:44px;
+    border-radius:50%;
+    background: rgba(0,0,0,0.45);
+    border: 1px solid var(--pec-cyan-dim);
+    color: var(--ink);
+    font-size:22px;
+    cursor:pointer;
+    opacity:0;
+    transition: opacity 0.3s ease 0.2s, background 0.2s ease;
+  }
+  .pgal-nav:hover{ background: rgba(47,208,224,0.18); }
+  .pgal-preview.reveal-meta .pgal-nav{ opacity:1; }
+  .pgal-prev{ left:-60px; }
+  .pgal-next{ right:-60px; }
+
+  @media (max-width: 900px){
+    .pgal-prev{ left:8px; }
+    .pgal-next{ right:8px; }
+  }
+
+  @media (max-width: 720px){
+    #pec-gallery{ padding: 7vh 0 6vh; }
+    .pgal-row-offset{ margin-left: 14vw; }
+    .pgal-preview-glass{ flex-direction:column; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .pgal-card-float{ animation: none !important; }
+  }
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+(function(){
+  // ---------- DATA: replace with real PEC Hacks photos ----------
+  const galleryItems = [
+    { src: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=700&q=70', title: 'Opening Keynote', desc: 'Teams gathered as PEC Hacks 3.0 kicked off with the opening keynote.', year: '2025', cat: 'Ceremony', w: 260, h: 320 },
+    { src: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=700&q=70', title: 'Late Night Build', desc: 'Hour 22 — the build hall never really went quiet.', year: '2025', cat: 'Hacking', w: 320, h: 260 },
+    { src: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=700&q=70', title: 'Mentor Rounds', desc: 'Industry mentors walking the floor, unblocking teams in real time.', year: '2025', cat: 'Mentorship', w: 280, h: 340 },
+    { src: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=700&q=70', title: 'Final Pitches', desc: 'Twelve finalist teams took the stage for the closing pitch round.', year: '2025', cat: 'Finals', w: 300, h: 240 },
+    { src: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=700&q=70', title: 'Winners Circle', desc: 'The winning team of PEC Hacks 3.0, moments after the announcement.', year: '2025', cat: 'Awards', w: 260, h: 300 },
+    { src: 'https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=700&q=70', title: 'Sponsor Booths', desc: 'MLH and partner booths across the main hall.', year: '2025', cat: 'Sponsors', w: 320, h: 280 },
+    { src: 'https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&w=700&q=70', title: 'Workshop Track', desc: 'A packed room for the systems-design workshop.', year: '2025', cat: 'Workshop', w: 280, h: 320 },
+    { src: 'https://images.unsplash.com/photo-1526378722484-bd91ca387e72?auto=format&fit=crop&w=700&q=70', title: 'Team Huddle', desc: 'Strategy session between two demo rounds.', year: '2025', cat: 'Hacking', w: 300, h: 260 },
+    { src: 'https://images.unsplash.com/photo-1560439514-4e9645039924?auto=format&fit=crop&w=700&q=70', title: 'Demo Floor', desc: 'Judges moving table to table during live demos.', year: '2025', cat: 'Finals', w: 260, h: 320 },
+    { src: 'https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&w=700&q=70', title: 'Closing Photo', desc: 'The full PEC Hacks 3.0 cohort, closing group photo.', year: '2025', cat: 'Ceremony', w: 320, h: 260 },
+  ];
+
+  const isTouch = window.matchMedia('(hover:none)').matches;
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function buildRow(container, items){
+    items.forEach((item) => {
+      const card = document.createElement('div');
+      card.className = 'pgal-card';
+      card.dataset.idx = item.origIdx;
+      card.style.width = item.w + 'px';
+      card.style.height = Math.round(item.h * 0.68) + 'px'; // shorter cards, per feedback
+
+      const floatEl = document.createElement('div');
+      floatEl.className = 'pgal-card-float';
+      floatEl.style.setProperty('--dur', (6 + Math.random()*4).toFixed(1) + 's');
+      floatEl.style.setProperty('--delay', (Math.random()*-6).toFixed(1) + 's');
+      floatEl.style.setProperty('--rot', (Math.random()*3 - 1.5).toFixed(1) + 'deg');
+      floatEl.style.setProperty('--float-y', (-6 - Math.random()*6).toFixed(0) + 'px');
+
+      const inner = document.createElement('div');
+      inner.className = 'pgal-card-inner';
+
+      const img = document.createElement('img');
+      img.loading = 'lazy';
+      img.src = item.src;
+      img.alt = item.title;
+
+      const sheen = document.createElement('div');
+      sheen.className = 'pgal-sheen';
+
+      const sweep = document.createElement('div');
+      sweep.className = 'pgal-sweep';
+
+      const hint = document.createElement('div');
+      hint.className = 'pgal-tap-hint';
+      hint.textContent = 'View';
+
+      inner.append(img, sheen, sweep, hint);
+      floatEl.appendChild(inner);
+      card.appendChild(floatEl);
+      container.appendChild(card);
+    });
+  }
+
+  const trackTop = document.getElementById('pgalTrackTop');
+  const trackBottom = document.getElementById('pgalTrackBottom');
+
+  // keep each item's REAL index from galleryItems attached, so the
+  // card always opens the same photo it's showing — not a positional guess
+  const topItems = galleryItems
+    .map((item, i) => ({ ...item, origIdx: i }))
+    .filter((_, i) => i % 2 === 0);
+  const bottomItems = galleryItems
+    .map((item, i) => ({ ...item, origIdx: i }))
+    .filter((_, i) => i % 2 === 1);
+
+  // duplicate each row's content once for a seamless infinite loop
+  buildRow(trackTop, topItems);
+  buildRow(trackTop, topItems);
+  buildRow(trackBottom, bottomItems);
+  buildRow(trackBottom, bottomItems);
+
+  let tweenTop, tweenBottom;
+
+  function startMarquee(){
+    const topWidth = trackTop.scrollWidth / 2;
+    const bottomWidth = trackBottom.scrollWidth / 2;
+
+    tweenTop = gsap.fromTo(trackTop, { x: 0 }, {
+      x: -topWidth, duration: 55, ease: 'none', repeat: -1
+    });
+    tweenBottom = gsap.fromTo(trackBottom, { x: -bottomWidth }, {
+      x: 0, duration: 60, ease: 'none', repeat: -1
+    });
+  }
+
+  // wait for images to lay out real widths before measuring
+  window.addEventListener('load', startMarquee);
+  setTimeout(startMarquee, 400); // fallback if load already fired
+
+  if(reduced){
+    // keep rows static, skip infinite scroll entirely
+    if(tweenTop) tweenTop.pause();
+    if(tweenBottom) tweenBottom.pause();
+  }
+
+  // ---------------- LIGHTBOX ----------------
+  const backdrop = document.getElementById('pgalBackdrop');
+  const preview = document.getElementById('pgalPreview');
+  const previewGlass = preview.querySelector('.pgal-preview-glass');
+  const previewImg = document.getElementById('pgalPreviewImg');
+  const previewTitle = document.getElementById('pgalPreviewTitle');
+  const previewDesc = document.getElementById('pgalPreviewDesc');
+  const previewYear = document.getElementById('pgalPreviewYear');
+  const previewCat = document.getElementById('pgalPreviewCat');
+  const closeBtn = document.getElementById('pgalClose');
+  const prevBtn = document.getElementById('pgalPrev');
+  const nextBtn = document.getElementById('pgalNext');
+
+  let activeCard = null;
+  let activeIdx = null;
+  let previewOpen = false;
+  let hoverRow = null; // 'top' | 'bottom' | null
+
+  function updateTimeScales(){
+    const topScale = previewOpen ? 0.06 : (hoverRow === 'top' ? 0.14 : 1);
+    const bottomScale = previewOpen ? 0.06 : (hoverRow === 'bottom' ? 0.14 : 1);
+    if(tweenTop) gsap.to(tweenTop, { timeScale: topScale, duration: 0.5, ease:'power2.out' });
+    if(tweenBottom) gsap.to(tweenBottom, { timeScale: bottomScale, duration: 0.5, ease:'power2.out' });
+  }
+
+  function slowMarquee(on){
+    previewOpen = on;
+    updateTimeScales();
+  }
+
+  function fillMeta(idx){
+    const item = galleryItems[idx];
+    previewImg.classList.remove('loaded');
+    previewImg.onload = null;
+    previewImg.src = item.src;
+    previewImg.alt = item.title;
+    // cached images may not re-fire 'load' — check complete state directly
+    if(previewImg.complete && previewImg.naturalWidth > 0){
+      previewImg.classList.add('loaded');
+    } else {
+      previewImg.onload = () => previewImg.classList.add('loaded');
+    }
+    previewTitle.textContent = item.title;
+    previewDesc.textContent = item.desc;
+    previewYear.textContent = item.year;
+    previewCat.textContent = item.cat;
+  }
+
+  function openCard(card){
+    if(!card) return;
+
+    // safety net: if a previous close got interrupted mid-animation,
+    // its card can be stuck invisible forever — clear that now, before
+    // starting a fresh transition, so no permanent gap survives
+    document.querySelectorAll('.pgal-card.is-open').forEach(c => {
+      if(c !== card) c.classList.remove('is-open');
+    });
+    gsap.killTweensOf(preview);
+
+    activeCard = card;
+    activeIdx = parseInt(card.dataset.idx, 10);
+
+    const rect = card.getBoundingClientRect();
+
+    card.classList.add('is-open');
+    backdrop.classList.add('active');
+
+    // target: centered box, 70% viewport width, proportional height
+    const targetW = Math.min(window.innerWidth * 0.7, 760);
+    const targetH = Math.min(window.innerHeight * 0.7, 620);
+    const targetX = (window.innerWidth - targetW) / 2;
+    const targetY = (window.innerHeight - targetH) / 2;
+
+    gsap.set(preview, {
+      x: rect.left, y: rect.top,
+      width: rect.width, height: rect.height,
+      opacity: 1
+    });
+    preview.classList.add('active');
+    fillMeta(activeIdx);
+
+    slowMarquee(true);
+
+    gsap.to(preview, {
+      x: targetX, y: targetY,
+      width: targetW, height: targetH,
+      duration: 0.7,
+      ease: 'power3.inOut',
+      onComplete: () => preview.classList.add('reveal-meta')
+    });
+  }
+
+  function closeCard(){
+    if(!activeCard) return;
+    gsap.killTweensOf(preview);
+
+    // capture the card here in a local const — if openCard() reassigns
+    // the shared `activeCard` before this tween finishes, this reference
+    // still points at the right element, so it always gets restored
+    // instead of being left permanently hidden (the black-gap bug)
+    const cardToRestore = activeCard;
+    const rect = cardToRestore.getBoundingClientRect();
+    preview.classList.remove('reveal-meta');
+
+    gsap.to(preview, {
+      x: rect.left, y: rect.top,
+      width: rect.width, height: rect.height,
+      duration: 0.6,
+      ease: 'power3.inOut',
+      onComplete: () => {
+        preview.classList.remove('active');
+        backdrop.classList.remove('active');
+        cardToRestore.classList.remove('is-open');
+        // fully reset preview — without this it sits opacity:1 on top of
+        // the reappeared card as a visible dark box
+        gsap.set(preview, { opacity: 0, width: 0, height: 0, x: 0, y: 0 });
+        previewImg.classList.remove('loaded');
+        previewImg.src = '';
+        if(activeCard === cardToRestore){ activeCard = null; activeIdx = null; }
+        slowMarquee(false);
+      }
+    });
+  }
+
+  function step(dir){
+    if(activeIdx === null) return;
+    activeIdx = (activeIdx + dir + galleryItems.length) % galleryItems.length;
+    fillMeta(activeIdx);
+  }
+
+  document.addEventListener('click', (e) => {
+    const card = e.target.closest('.pgal-card');
+    if(card && !preview.classList.contains('active')){
+      openCard(card);
+    }
+  });
+
+  closeBtn.addEventListener('click', closeCard);
+  backdrop.addEventListener('click', closeCard);
+  prevBtn.addEventListener('click', () => step(-1));
+  nextBtn.addEventListener('click', () => step(1));
+
+  document.addEventListener('keydown', (e) => {
+    if(!preview.classList.contains('active')) return;
+    if(e.key === 'Escape') closeCard();
+    if(e.key === 'ArrowLeft') step(-1);
+    if(e.key === 'ArrowRight') step(1);
+  });
+
+  // ---------------- HOVER: tilt, lift, glow, row slow-down ----------------
+  // Desktop/pointer devices only — touch has no hover to trigger this,
+  // so mobile stays exactly as it was (tap opens the preview directly).
+  const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+  if(canHover){
+    document.querySelectorAll('#pec-gallery .pgal-card').forEach(card => {
+      const inner = card.querySelector('.pgal-card-inner');
+      const row = card.closest('.pgal-track') === trackTop ? 'top' : 'bottom';
+
+      card.addEventListener('mouseenter', () => {
+        if(preview.classList.contains('active')) return;
+        card.classList.add('is-hovering');
+        hoverRow = row;
+        updateTimeScales();
+        gsap.to(inner, { scale: 1.06, z: 30, duration: 0.55, ease: 'power3.out' });
+      });
+
+      card.addEventListener('mousemove', (e) => {
+        if(preview.classList.contains('active')) return;
+        const r = card.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width - 0.5;
+        const py = (e.clientY - r.top) / r.height - 0.5;
+        gsap.to(inner, { rotateY: px * 16, rotateX: -py * 16, duration: 0.4, ease: 'power3.out' });
+      });
+
+      card.addEventListener('mouseleave', () => {
+        card.classList.remove('is-hovering');
+        if(hoverRow === row) hoverRow = null;
+        updateTimeScales();
+        gsap.to(inner, { scale: 1, z: 0, rotateX: 0, rotateY: 0, duration: 0.6, ease: 'power3.out' });
+      });
+    });
+  }
+
+  // ---------------- SCROLL REVEAL (one-time, section entering view) ----------------
+  const revealTargets = document.querySelectorAll('#pec-gallery .pgal-header, #pec-gallery .pgal-row-mask');
+  revealTargets.forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(28px)';
+    el.style.transition = 'opacity 0.9s cubic-bezier(.16,1,.3,1), transform 0.9s cubic-bezier(.16,1,.3,1)';
+  });
+
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if(entry.isIntersecting){
+        entry.target.style.transitionDelay = (i * 0.08) + 's';
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  revealTargets.forEach(el => revealObserver.observe(el));
+
+  // ---------------- AMBIENT PARTICLES (very subtle) ----------------
+  const canvas = document.getElementById('pgalParticles');
+  const ctx = canvas.getContext('2d');
+  let pw, ph, dots = [];
+
+  function resize(){
+    pw = canvas.width = canvas.parentElement.offsetWidth * devicePixelRatio;
+    ph = canvas.height = canvas.parentElement.offsetHeight * devicePixelRatio;
+    canvas.style.width = canvas.parentElement.offsetWidth + 'px';
+    canvas.style.height = canvas.parentElement.offsetHeight + 'px';
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const count = isTouch ? 20 : 40;
+  for(let i=0;i<count;i++){
+    dots.push({
+      x: Math.random()*pw, y: Math.random()*ph,
+      r: (Math.random()*1.2 + 0.3) * devicePixelRatio,
+      s: Math.random()*0.15 + 0.02,
+      a: Math.random()*0.3 + 0.08
+    });
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,pw,ph);
+    dots.forEach(d => {
+      ctx.beginPath();
+      ctx.fillStyle = `rgba(47,208,224,${d.a})`;
+      ctx.arc(d.x, d.y, d.r, 0, Math.PI*2);
+      ctx.fill();
+      d.y -= d.s;
+      if(d.y < -10) d.y = ph + 10;
+    });
+    if(!reduced) requestAnimationFrame(draw);
+  }
+  draw();
+})();
+</script>

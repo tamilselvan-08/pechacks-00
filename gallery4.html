@@ -1,0 +1,865 @@
+<!--
+  ============================================================
+  PEC HACKS — GALLERY: STAGGERED CYBER SHIELD 3D FLIP
+  ============================================================
+  An Awwwards-grade minimal luxury image gallery featuring:
+  - Staggered centered CSS Grid rows (4 - 3 - 4 - 4 grid desktop).
+  - Apple-inspired rounded cyber shield cards (via SVG clip-path).
+  - GPU-accelerated true 3D Cube Face rotation animations based on cursor entry direction.
+  - Interactive mouse-tilt tracking directly on the active rotated cube face.
+  - Non-scaling SVG stroke outlines for flawless cyber shield glass borders.
+  - filter: drop-shadow() conformative cyan glows.
+  - IntersectionObserver viewport entry stagger transitions.
+  - Soft ambient particles on a pure black background.
+  - Non-intrusive automatic featured cycle.
+  ============================================================
+-->
+
+<svg class="mgal-clip-defs" style="position: absolute; width: 0; height: 0; pointer-events: none;" aria-hidden="true">
+  <defs>
+    <clipPath id="shield-clip" clipPathUnits="objectBoundingBox">
+      <path d="M 0.2 0.02 L 0.8 0.02 C 0.9 0.02 0.98 0.08 0.98 0.18 L 0.98 0.78 C 0.98 0.88 0.7 0.98 0.5 0.98 C 0.3 0.98 0.02 0.88 0.02 0.78 L 0.02 0.18 C 0.02 0.08 0.1 0.02 0.2 0.02 Z"></path>
+    </clipPath>
+  </defs>
+</svg>
+
+<section id="pec-gallery-masonry" class="mgal-section">
+
+  <canvas class="mgal-particles" id="mgalParticles"></canvas>
+  <div class="mgal-glow"></div>
+  <svg class="mgal-noise-svg" aria-hidden="true">
+    <filter id="mgalNoiseFilter">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch"></feTurbulence>
+      <feColorMatrix type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.02 0"></feColorMatrix>
+    </filter>
+  </svg>
+  <div class="mgal-noise"></div>
+
+  <div class="mgal-header">
+    <h2 class="mgal-title">Gallery</h2>
+    <p class="mgal-sub">Moments from PEC HACKS</p>
+  </div>
+
+  <div class="mgal-field" id="mgalField"></div>
+
+</section>
+
+<style>
+  #pec-gallery-masonry {
+    --pec-black: #050505;
+    --pec-cyan: #2fd0e0;
+    --pec-line: rgba(255, 255, 255, 0.12);
+    --ink: #f5f7f8;
+    --ink-dim: rgba(245, 247, 248, 0.6);
+
+    position: relative;
+    background: var(--pec-black);
+    padding: 10vh 4vw 10vh;
+    overflow: hidden;
+    min-height: 100vh;
+  }
+  #pec-gallery-masonry * { box-sizing: border-box; }
+
+  .mgal-glow {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background: radial-gradient(circle at 50% 50%, rgba(47, 208, 224, 0.06) 0%, transparent 65%);
+  }
+  .mgal-particles { position: absolute; inset: 0; z-index: 0; pointer-events: none; width: 100%; height: 100%; }
+  .mgal-noise-svg { position: absolute; width: 0; height: 0; }
+  .mgal-noise {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    filter: url(#mgalNoiseFilter);
+    mix-blend-mode: overlay;
+    opacity: 0.3;
+  }
+
+  .mgal-header { position: relative; z-index: 3; text-align: center; margin-bottom: 5vh; }
+  .mgal-title { font-size: clamp(2.2rem, 5.4vw, 3.2rem); font-weight: 700; color: var(--ink); margin: 0; }
+  .mgal-sub { font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-dim); margin-top: 12px; }
+
+  /* ---------------- CSS GRID FIELD ---------------- */
+  .mgal-field {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    justify-content: center;
+    margin: 0 auto;
+    width: max-content;
+    max-width: 100%;
+  }
+
+  /* Desktop (1600px+ : 4-3-4-4 Staggered Grid) */
+  @media (min-width: 1600px) {
+    .mgal-field {
+      grid-template-columns: repeat(24, clamp(30px, 1.7vw, 33.3px));
+      grid-auto-rows: clamp(230px, 13vw, 260px);
+      gap: 18px;
+    }
+    .mgal-item {
+      grid-column: span 6;
+      width: 100%;
+      height: 100%;
+    }
+    /* Centering Row 2 (Cards 5, 6, 7 - indices 4, 5, 6) */
+    .mgal-item:nth-child(5) {
+      grid-column: 4 / span 6;
+    }
+    /* Resetting flow for Row 3 (Card 8 - index 7) */
+    .mgal-item:nth-child(8) {
+      grid-column: 1 / span 6;
+    }
+    /* Resetting flow for Row 4 (Card 12 - index 11) */
+    .mgal-item:nth-child(12) {
+      grid-column: 1 / span 6;
+    }
+  }
+
+  /* Laptop (1200px to 1599px : 4-3-4-4 Staggered Grid) */
+  @media (min-width: 1200px) and (max-width: 1599px) {
+    .mgal-field {
+      grid-template-columns: repeat(24, clamp(26.6px, 1.8vw, 29.1px));
+      grid-auto-rows: clamp(210px, 14.5vw, 235px);
+      gap: 16px;
+    }
+    .mgal-item {
+      grid-column: span 6;
+      width: 100%;
+      height: 100%;
+    }
+    .mgal-item:nth-child(5) {
+      grid-column: 4 / span 6;
+    }
+    .mgal-item:nth-child(8) {
+      grid-column: 1 / span 6;
+    }
+    .mgal-item:nth-child(12) {
+      grid-column: 1 / span 6;
+    }
+  }
+
+  /* Tablet (768px to 1199px : 3 Columns) */
+  @media (min-width: 768px) and (max-width: 1199px) {
+    .mgal-field {
+      grid-template-columns: repeat(3, 150px);
+      grid-auto-rows: 200px;
+      gap: 14px;
+    }
+    .mgal-item {
+      grid-column: span 1 !important;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  /* Mobile (<768px : 2 Columns) */
+  @media (max-width: 767px) {
+    .mgal-field {
+      grid-template-columns: repeat(2, 140px);
+      grid-auto-rows: 185px;
+      gap: 12px;
+    }
+    .mgal-item {
+      grid-column: span 1 !important;
+      width: 100%;
+      height: 100%;
+    }
+    /* Centering the 15th card (index 14) on mobile */
+    .mgal-item:last-child {
+      grid-column: span 2 !important;
+      justify-self: center;
+      width: 140px;
+    }
+  }
+
+  /* ---------------- CARD STRUCTURE & STAGGER ENTRY ---------------- */
+  .mgal-item {
+    position: relative;
+    perspective: 1400px;
+    
+    /* Scroll animation initial state */
+    opacity: 0;
+    transform: translateY(40px) scale(0.92);
+    will-change: opacity, transform;
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .mgal-item.is-visible {
+    opacity: 1;
+    transform: translateY(0) scale(1.0);
+  }
+
+  .mgal-float-wrap {
+    width: 100%;
+    height: 100%;
+    animation: mgalFloat var(--dur, 6s) ease-in-out infinite;
+    animation-delay: var(--delay, 0s);
+    will-change: transform;
+  }
+
+  @keyframes mgalFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(var(--float-y, -8px)); }
+  }
+
+  /* Conformative Drop-Shadow Filter for custom Shield Clip Shape */
+  .mgal-lift {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.45));
+    will-change: transform, filter;
+    transition: transform 0.55s cubic-bezier(.22,.61,.36,1), filter 0.55s cubic-bezier(.22,.61,.36,1);
+    transform-origin: center center;
+    perspective: 1400px;
+    transform-style: preserve-3d;
+  }
+
+  .mgal-card {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    will-change: transform;
+  }
+
+  /* Lift, Scale, Glow and Shadow on Hover */
+  .mgal-item:hover .mgal-lift,
+  .mgal-item.is-auto-active .mgal-lift {
+    transform: translateY(-12px) scale(1.05);
+    filter: 
+      drop-shadow(0 25px 50px rgba(0, 0, 0, 0.65)) 
+      drop-shadow(0 0 20px rgba(47, 208, 224, 0.25));
+  }
+
+  /* Cyber Shield Glass Faces */
+  .mgal-face {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    clip-path: url(#shield-clip);
+    -webkit-clip-path: url(#shield-clip);
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .mgal-front {
+    z-index: 2;
+    transform: rotateY(0deg);
+  }
+
+  .mgal-back {
+    transform: rotateY(180deg);
+  }
+
+  .mgal-face img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    opacity: 0.9;
+    transform: scale(1.0);
+    will-change: transform;
+    transition: transform 0.55s cubic-bezier(.22,.61,.36,1);
+  }
+
+  /* Slight Zoom of images on hover */
+  .mgal-item:hover .mgal-face img,
+  .mgal-item.is-auto-active .mgal-face img {
+    transform: scale(1.03);
+  }
+
+  .mgal-reflection {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.02) 40%, transparent 60%);
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  /* Cyber Shield Non-Scaling Border SVG */
+  .mgal-border-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  .mgal-border-svg path {
+    fill: none;
+    stroke: var(--pec-line);
+    stroke-width: 1.5px;
+    vector-effect: non-scaling-stroke;
+    transition: stroke 0.55s ease;
+  }
+
+  .mgal-item:hover .mgal-border-svg path,
+  .mgal-item.is-auto-active .mgal-border-svg path {
+    stroke: rgba(47, 208, 224, 0.75);
+  }
+
+  /* Reflection Shine Sweep */
+  .mgal-shine {
+    position: absolute;
+    top: 0; left: -150%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transform: skewX(-25deg);
+    pointer-events: none;
+    z-index: 5;
+    will-change: transform;
+  }
+
+  .mgal-item:hover .mgal-shine,
+  .mgal-item.is-auto-active .mgal-shine {
+    transform: translate3d(300%, 0, 0) skewX(-25deg);
+    transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+(function(){
+
+  const items = [
+    { 
+      front: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=600&q=75', 
+      back: 'https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&w=600&q=75', 
+      title: 'Registration Desk' 
+    },
+    { 
+      front: 'https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=600&q=75', 
+      back: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=600&q=75', 
+      title: 'Opening Keynote' 
+    },
+    { 
+      front: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=600&q=75', 
+      back: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=600&q=75', 
+      title: 'Mentor Rounds' 
+    },
+    { 
+      front: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600&q=75', 
+      back: 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=600&q=75', 
+      title: 'Winners Circle' 
+    },
+    { 
+      front: 'https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=600&q=75', 
+      back: 'https://images.unsplash.com/photo-1526378722484-bd91ca387e72?auto=format&fit=crop&w=600&q=75', 
+      title: 'Sponsor Booths' 
+    },
+    { 
+      front: 'https://images.unsplash.com/photo-1560439514-4e9645039924?auto=format&fit=crop&w=600&q=75', 
+      back: 'https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&w=600&q=75', 
+      title: 'Demo Floor' 
+    },
+    { 
+      front: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=600&q=75', 
+      back: 'https://images.unsplash.com/photo-1531538606174-0f90ff5dce83?auto=format&fit=crop&w=600&q=75', 
+      title: 'Whiteboard Session' 
+    },
+    { 
+      front: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=600&q=75', 
+      back: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=600&q=75', 
+      title: 'Team Photo' 
+    },
+    { 
+      front: 'https://images.unsplash.com/photo-1507537297725-24a1c029d3ca?auto=format&fit=crop&w=600&q=75', 
+      back: 'https://images.unsplash.com/photo-1542744094-3a31f103e35f?auto=format&fit=crop&w=600&q=75', 
+      title: 'Idea Pitching' 
+    },
+    { 
+      front: 'https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=600&q=75', 
+      back: 'https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=600&q=75', 
+      title: 'App Mockups' 
+    },
+    { 
+      front: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=600&q=75', 
+      back: 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=600&q=75', 
+      title: 'Collaboration' 
+    },
+    { 
+      front: 'https://images.unsplash.com/photo-1527689368864-3a821dbccc34?auto=format&fit=crop&w=600&q=75', 
+      back: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=600&q=75', 
+      title: 'Focused Hacking' 
+    },
+    { 
+      front: 'https://images.unsplash.com/photo-1535303311164-664fc9ec6532?auto=format&fit=crop&w=600&q=75', 
+      back: 'https://images.unsplash.com/photo-1531498860502-7c67cf02f657?auto=format&fit=crop&w=600&q=75', 
+      title: 'Prototype Testing' 
+    },
+    { 
+      front: 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=600&q=75', 
+      back: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=75', 
+      title: 'Presentation' 
+    },
+    { 
+      front: 'https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&w=600&q=75', 
+      back: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=75', 
+      title: 'Final Pitches Tech' 
+    }
+  ];
+
+  const field = document.getElementById('mgalField');
+  const isTouch = window.matchMedia('(hover:none)').matches;
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function buildField() {
+    field.innerHTML = '';
+    
+    items.forEach((data, i) => {
+      const item = document.createElement('div');
+      item.className = 'mgal-item';
+      item.setAttribute('data-index', i);
+
+      const floatWrap = document.createElement('div');
+      floatWrap.className = 'mgal-float-wrap';
+      floatWrap.style.setProperty('--dur', (5 + Math.random() * 3).toFixed(1) + 's');
+      floatWrap.style.setProperty('--delay', (Math.random() * -8).toFixed(1) + 's');
+      floatWrap.style.setProperty('--float-y', (-(6 + Math.random() * 2)).toFixed(0) + 'px');
+
+      const lift = document.createElement('div');
+      lift.className = 'mgal-lift';
+
+      const card = document.createElement('div');
+      card.className = 'mgal-card';
+
+      // Rounded Shield Path for SVG Outline
+      const borderSvgPath = 'M 20 2 L 80 2 C 90 2 98 8 98 18 L 98 78 C 98 88 70 98 50 98 C 30 98 2 88 2 78 L 2 18 C 2 8 10 2 20 2 Z';
+
+      // Front Face
+      const frontFace = document.createElement('div');
+      frontFace.className = 'mgal-face mgal-front';
+      const imgFront = document.createElement('img');
+      imgFront.loading = 'lazy';
+      imgFront.style.opacity = '0';
+      imgFront.addEventListener('load', () => {
+        gsap.to(imgFront, { opacity: 0.9, duration: 0.6 });
+      });
+      imgFront.src = data.front;
+      imgFront.alt = data.title + ' Front';
+      
+      const reflectionFront = document.createElement('div');
+      reflectionFront.className = 'mgal-reflection';
+      
+      const shineFront = document.createElement('div');
+      shineFront.className = 'mgal-shine';
+      
+      const borderSvgFront = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      borderSvgFront.setAttribute('class', 'mgal-border-svg');
+      borderSvgFront.setAttribute('viewBox', '0 0 100 100');
+      borderSvgFront.setAttribute('preserveAspectRatio', 'none');
+      const pathFront = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      pathFront.setAttribute('d', borderSvgPath);
+      pathFront.setAttribute('vector-effect', 'non-scaling-stroke');
+      borderSvgFront.appendChild(pathFront);
+      
+      frontFace.appendChild(imgFront);
+      frontFace.appendChild(reflectionFront);
+      frontFace.appendChild(shineFront);
+      frontFace.appendChild(borderSvgFront);
+
+      // Back Face
+      const backFace = document.createElement('div');
+      backFace.className = 'mgal-face mgal-back';
+      const imgBack = document.createElement('img');
+      imgBack.loading = 'lazy';
+      imgBack.style.opacity = '0';
+      imgBack.addEventListener('load', () => {
+        gsap.to(imgBack, { opacity: 0.9, duration: 0.6 });
+      });
+      imgBack.src = data.back;
+      imgBack.alt = data.title + ' Back';
+      
+      const reflectionBack = document.createElement('div');
+      reflectionBack.className = 'mgal-reflection';
+
+      const shineBack = document.createElement('div');
+      shineBack.className = 'mgal-shine';
+      
+      const borderSvgBack = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      borderSvgBack.setAttribute('class', 'mgal-border-svg');
+      borderSvgBack.setAttribute('viewBox', '0 0 100 100');
+      borderSvgBack.setAttribute('preserveAspectRatio', 'none');
+      const pathBack = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      pathBack.setAttribute('d', borderSvgPath);
+      pathBack.setAttribute('vector-effect', 'non-scaling-stroke');
+      borderSvgBack.appendChild(pathBack);
+      
+      backFace.appendChild(imgBack);
+      backFace.appendChild(reflectionBack);
+      backFace.appendChild(shineBack);
+      backFace.appendChild(borderSvgBack);
+
+      card.appendChild(frontFace);
+      card.appendChild(backFace);
+      lift.appendChild(card);
+      floatWrap.appendChild(lift);
+      item.appendChild(floatWrap);
+      field.appendChild(item);
+
+      setupDirectionAwareCube(item);
+    });
+
+    setupScrollObserver();
+  }
+
+  // Calculate direction angle mapping: 0 = Top, 1 = Right, 2 = Bottom, 3 = Left
+  function getDirection(e, item) {
+    const rect = item.getBoundingClientRect();
+    const w = rect.width;
+    const h = rect.height;
+    const x = (e.clientX - rect.left - w / 2) * (w > h ? (h / w) : 1);
+    const y = (e.clientY - rect.top - h / 2) * (h > w ? (w / h) : 1);
+    const direction = Math.round((Math.atan2(y, x) * (180 / Math.PI) + 180) / 90 + 3) % 4;
+    return direction;
+  }
+
+  // ---------------- TRUE 3D CUBE FLIP & TILT ----------------
+  function setupDirectionAwareCube(item) {
+    const lift = item.querySelector('.mgal-lift');
+    const card = item.querySelector('.mgal-card');
+    const front = item.querySelector('.mgal-front');
+    const back = item.querySelector('.mgal-back');
+
+    let activeDir = null;
+    let w = 0, h = 0;
+
+    item.addEventListener('pointerenter', (e) => {
+      if (activeAutoItem) {
+        collapseAutoFeatured(activeAutoItem);
+        activeAutoItem = null;
+      }
+
+      const rect = item.getBoundingClientRect();
+      w = rect.width;
+      h = rect.height;
+      activeDir = getDirection(e, item);
+
+      front.style.transition = 'none';
+      back.style.transition = 'none';
+
+      let targetTransform = '';
+      let translateZVal = 0;
+
+      if (activeDir === 0) { // Top
+        translateZVal = -h / 2;
+        front.style.transform = `translateZ(${h/2}px)`;
+        back.style.transform = `rotateX(90deg) translateZ(${h/2}px)`;
+        targetTransform = `translateZ(${translateZVal}px) rotateX(-90deg)`;
+      } else if (activeDir === 1) { // Right
+        translateZVal = -w / 2;
+        front.style.transform = `translateZ(${w/2}px)`;
+        back.style.transform = `rotateY(90deg) translateZ(${w/2}px)`;
+        targetTransform = `translateZ(${translateZVal}px) rotateY(-90deg)`;
+      } else if (activeDir === 2) { // Bottom
+        translateZVal = -h / 2;
+        front.style.transform = `translateZ(${h/2}px)`;
+        back.style.transform = `rotateX(-90deg) translateZ(${h/2}px)`;
+        targetTransform = `translateZ(${translateZVal}px) rotateX(90deg)`;
+      } else { // Left
+        translateZVal = -w / 2;
+        front.style.transform = `translateZ(${w/2}px)`;
+        back.style.transform = `rotateY(-90deg) translateZ(${w/2}px)`;
+        targetTransform = `translateZ(${translateZVal}px) rotateY(90deg)`;
+      }
+
+      front.offsetHeight; // reflow
+      back.offsetHeight;
+
+      gsap.to(card, {
+        transform: targetTransform,
+        duration: 0.55,
+        ease: 'power2.out',
+        overwrite: 'auto'
+      });
+    });
+
+    item.addEventListener('pointermove', (e) => {
+      if (activeDir === null || w === 0 || h === 0) return;
+
+      const rect = item.getBoundingClientRect();
+      const x = (e.clientX - rect.left - w / 2) / (w / 2);
+      const y = (e.clientY - rect.top - h / 2) / (h / 2);
+      
+      const tiltX = -y * 8; // Max 8 degrees cursor tilt
+      const tiltY = x * 8;
+
+      let rotateXTarget = 0;
+      let rotateYTarget = 0;
+      let translateZTarget = 0;
+
+      if (activeDir === 0) {
+        rotateXTarget = -90 + tiltX;
+        rotateYTarget = tiltY;
+        translateZTarget = -h / 2;
+      } else if (activeDir === 1) {
+        rotateXTarget = tiltX;
+        rotateYTarget = -90 + tiltY;
+        translateZTarget = -w / 2;
+      } else if (activeDir === 2) {
+        rotateXTarget = 90 + tiltX;
+        rotateYTarget = tiltY;
+        translateZTarget = -h / 2;
+      } else {
+        rotateXTarget = tiltX;
+        rotateYTarget = 90 + tiltY;
+        translateZTarget = -w / 2;
+      }
+
+      gsap.to(card, {
+        transform: `translateZ(${translateZTarget}px) rotateX(${rotateXTarget}deg) rotateY(${rotateYTarget}deg)`,
+        duration: 0.25,
+        ease: 'power2.out',
+        overwrite: 'auto'
+      });
+    });
+
+    item.addEventListener('pointerleave', () => {
+      activeDir = null;
+      
+      gsap.to(card, {
+        transform: 'translateZ(0px) rotateX(0deg) rotateY(0deg)',
+        duration: 0.55,
+        ease: 'power2.out',
+        overwrite: 'auto'
+      });
+      gsap.to(front, {
+        transform: 'translateZ(0px)',
+        duration: 0.55,
+        ease: 'power2.out',
+        overwrite: 'auto'
+      });
+      gsap.to(back, {
+        transform: 'translateZ(0px) rotateY(180deg)',
+        duration: 0.55,
+        ease: 'power2.out',
+        overwrite: 'auto'
+      });
+    });
+  }
+
+  // ---------------- SCROLL STAGGER OBSERVER ----------------
+  function setupScrollObserver() {
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.15
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+      let delay = 0;
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const item = entry.target;
+          setTimeout(() => {
+            item.classList.add('is-visible');
+          }, delay);
+          delay += 60;
+          observer.unobserve(item);
+        }
+      });
+    }, observerOptions);
+
+    const allItems = field.querySelectorAll('.mgal-item');
+    allItems.forEach(item => {
+      observer.observe(item);
+    });
+  }
+
+  // ---------------- AUTOMATIC CYCLE ----------------
+  let isUserHovering = false;
+  let autoCycleTimer = null;
+  let activeAutoItem = null;
+
+  field.addEventListener('mouseenter', () => {
+    isUserHovering = true;
+    if (activeAutoItem) {
+      collapseAutoFeatured(activeAutoItem);
+      activeAutoItem = null;
+    }
+  });
+
+  field.addEventListener('mouseleave', () => {
+    isUserHovering = false;
+  });
+
+  function triggerAutoFeatured(item) {
+    const rect = item.getBoundingClientRect();
+    const w = rect.width;
+    const h = rect.height;
+    const dir = Math.floor(Math.random() * 4);
+    
+    const lift = item.querySelector('.mgal-lift');
+    const card = item.querySelector('.mgal-card');
+    const front = item.querySelector('.mgal-front');
+    const back = item.querySelector('.mgal-back');
+
+    item.classList.add('is-auto-active');
+
+    front.style.transition = 'none';
+    back.style.transition = 'none';
+
+    let targetTransform = '';
+    let translateZVal = 0;
+    if (dir === 0) { // Top
+      translateZVal = -h / 2;
+      front.style.transform = `translateZ(${h/2}px)`;
+      back.style.transform = `rotateX(90deg) translateZ(${h/2}px)`;
+      targetTransform = `translateZ(${translateZVal}px) rotateX(-90deg)`;
+    } else if (dir === 1) { // Right
+      translateZVal = -w / 2;
+      front.style.transform = `translateZ(${w/2}px)`;
+      back.style.transform = `rotateY(90deg) translateZ(${w/2}px)`;
+      targetTransform = `translateZ(${translateZVal}px) rotateY(-90deg)`;
+    } else if (dir === 2) { // Bottom
+      translateZVal = -h / 2;
+      front.style.transform = `translateZ(${h/2}px)`;
+      back.style.transform = `rotateX(-90deg) translateZ(${h/2}px)`;
+      targetTransform = `translateZ(${translateZVal}px) rotateX(90deg)`;
+    } else { // Left
+      translateZVal = -w / 2;
+      front.style.transform = `translateZ(${w/2}px)`;
+      back.style.transform = `rotateY(-90deg) translateZ(${w/2}px)`;
+      targetTransform = `translateZ(${translateZVal}px) rotateY(90deg)`;
+    }
+
+    front.offsetHeight;
+    back.offsetHeight;
+
+    gsap.to(card, {
+      transform: targetTransform,
+      duration: 0.55,
+      ease: 'power2.out',
+      overwrite: 'auto'
+    });
+
+    gsap.to(lift, {
+      y: -12,
+      scale: 1.05,
+      duration: 0.55,
+      ease: 'power2.out',
+      overwrite: 'auto'
+    });
+
+    // Hold for 2 seconds, then return flat
+    setTimeout(() => {
+      if (isUserHovering) return;
+      if (activeAutoItem === item) {
+        collapseAutoFeatured(item);
+        activeAutoItem = null;
+      }
+    }, 2000);
+  }
+
+  function collapseAutoFeatured(item) {
+    const lift = item.querySelector('.mgal-lift');
+    const card = item.querySelector('.mgal-card');
+    const front = item.querySelector('.mgal-front');
+    const back = item.querySelector('.mgal-back');
+
+    item.classList.remove('is-auto-active');
+
+    gsap.to(card, {
+      transform: 'translateZ(0px) rotateX(0deg) rotateY(0deg)',
+      duration: 0.55,
+      ease: 'power2.out',
+      overwrite: 'auto'
+    });
+    gsap.to(front, {
+      transform: 'translateZ(0px)',
+      duration: 0.55,
+      ease: 'power2.out',
+      overwrite: 'auto'
+    });
+    gsap.to(back, {
+      transform: 'translateZ(0px) rotateY(180deg)',
+      duration: 0.55,
+      ease: 'power2.out',
+      overwrite: 'auto'
+    });
+    gsap.to(lift, {
+      y: 0,
+      scale: 1.0,
+      duration: 0.55,
+      ease: 'power2.out',
+      overwrite: 'auto'
+    });
+  }
+
+  function startAutoCycle() {
+    stopAutoCycle();
+    autoCycleTimer = setInterval(() => {
+      if (isUserHovering) return;
+
+      const allItems = Array.from(field.querySelectorAll('.mgal-item'));
+      if (allItems.length === 0) return;
+
+      const randomItem = allItems[Math.floor(Math.random() * allItems.length)];
+      activeAutoItem = randomItem;
+
+      triggerAutoFeatured(randomItem);
+    }, 6000);
+  }
+
+  function stopAutoCycle() {
+    if (autoCycleTimer) {
+      clearInterval(autoCycleTimer);
+      autoCycleTimer = null;
+    }
+  }
+
+  buildField();
+  startAutoCycle();
+
+  // ---------------- AMBIENT PARTICLES ----------------
+  const canvas = document.getElementById('mgalParticles');
+  const ctx = canvas.getContext('2d');
+  let pw, ph, dots = [];
+
+  function resizeCanvas(){
+    pw = canvas.width = canvas.parentElement.offsetWidth * devicePixelRatio;
+    ph = canvas.height = canvas.parentElement.offsetHeight * devicePixelRatio;
+    canvas.style.width = canvas.parentElement.offsetWidth + 'px';
+    canvas.style.height = canvas.parentElement.offsetHeight + 'px';
+  }
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+
+  const count = isTouch ? 15 : 30;
+  for(let i=0;i<count;i++){
+    dots.push({
+      x: Math.random()*pw,
+      y: Math.random()*ph,
+      r: (Math.random()*1.2+0.4)*devicePixelRatio,
+      s: Math.random()*0.05+0.015,
+      a: Math.random()*0.20+0.05
+    });
+  }
+
+  function drawParticles(){
+    ctx.clearRect(0,0,pw,ph);
+    dots.forEach(d => {
+      ctx.beginPath();
+      ctx.fillStyle = `rgba(47,208,224,${d.a})`;
+      ctx.arc(d.x, d.y, d.r, 0, Math.PI*2);
+      ctx.fill();
+      d.y -= d.s;
+      if(d.y < -10) d.y = ph + 10;
+    });
+    if(!reduced) requestAnimationFrame(drawParticles);
+  }
+  drawParticles();
+})();
+</script>
