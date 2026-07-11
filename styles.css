@@ -1,0 +1,568 @@
+:root {
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.129 0.042 264.695);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.129 0.042 264.695);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.129 0.042 264.695);
+  --primary: oklch(0.208 0.042 265.755);
+  --primary-foreground: oklch(0.984 0.003 247.858);
+  --secondary: oklch(0.968 0.007 247.896);
+  --secondary-foreground: oklch(0.208 0.042 265.755);
+  --muted: oklch(0.968 0.007 247.896);
+  --muted-foreground: oklch(0.554 0.046 257.417);
+  --accent: oklch(0.968 0.007 247.896);
+  --accent-foreground: oklch(0.208 0.042 265.755);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.984 0.003 247.858);
+  --border: oklch(0.929 0.013 255.508);
+  --input: oklch(0.929 0.013 255.508);
+  --ring: oklch(0.704 0.04 256.788);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.984 0.003 247.858);
+  --sidebar-foreground: oklch(0.129 0.042 264.695);
+  --sidebar-primary: oklch(0.208 0.042 265.755);
+  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
+  --sidebar-accent: oklch(0.968 0.007 247.896);
+  --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
+  --sidebar-border: oklch(0.929 0.013 255.508);
+  --sidebar-ring: oklch(0.704 0.04 256.788);
+
+  /* Light mode: swap black and white for full inversion */
+  --palette-black: #ffffff;
+  --palette-white: #000000;
+}
+
+.dark {
+  --background: oklch(0.129 0.042 264.695);
+  --foreground: oklch(0.984 0.003 247.858);
+  --card: oklch(0.208 0.042 265.755);
+  --card-foreground: oklch(0.984 0.003 247.858);
+  --popover: oklch(0.208 0.042 265.755);
+  --popover-foreground: oklch(0.984 0.003 247.858);
+  --primary: oklch(0.929 0.013 255.508);
+  --primary-foreground: oklch(0.208 0.042 265.755);
+  --secondary: oklch(0.279 0.041 260.031);
+  --secondary-foreground: oklch(0.984 0.003 247.858);
+  --muted: oklch(0.279 0.041 260.031);
+  --muted-foreground: oklch(0.704 0.04 256.788);
+  --accent: oklch(0.279 0.041 260.031);
+  --accent-foreground: oklch(0.984 0.003 247.858);
+  --destructive: oklch(0.704 0.191 22.216);
+  --destructive-foreground: oklch(0.984 0.003 247.858);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.551 0.027 264.364);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.208 0.042 265.755);
+  --sidebar-foreground: oklch(0.984 0.003 247.858);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
+  --sidebar-accent: oklch(0.279 0.041 260.031);
+  --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.551 0.027 264.364);
+
+  /* Dark mode: original colors */
+  --palette-black: #000000;
+  --palette-white: #ffffff;
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+  }
+}
+
+/* ===== Portfolio-specific styles ===== */
+html, body {
+  -webkit-font-smoothing: antialiased;
+  font-family: 'Inter', system-ui, sans-serif;
+  margin: 0;
+  padding: 0;
+  overflow-x: clip;
+  max-width: 100%;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+html::-webkit-scrollbar, body::-webkit-scrollbar { display: none; }
+
+* {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+h1, h2, h3, h4, h5, h6 { font-family: inherit; }
+
+.cta-wrap { transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+.cta-wrap:hover { transform: scale(1.08); }
+.cta-ring { animation: ctaSpin var(--cta-spin-duration, 10s) linear infinite; transform-origin: center; }
+.cta-wrap:hover .cta-ring { --cta-spin-duration: 3s; }
+@keyframes ctaSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+#splash-cursor { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 10; pointer-events: none; }
+
+.scroll-stack-inner { perspective: 1500px; padding: 10vh 0 0; display: flex; flex-direction: column; align-items: center; }
+
+.star-border-container { display: inline-block; position: relative; border-radius: 60px; overflow: hidden; padding: 2px; }
+.border-gradient-full { position: absolute; width: 200%; height: 200%; top: -50%; left: -50%; z-index: 0; animation: star-rotate linear infinite; filter: blur(8px); }
+.inner-content { position: relative; background: var(--palette-black); border-radius: 58px; width: 100%; height: 100%; z-index: 1; }
+@keyframes star-rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+.scroll-stack-card { position: relative; width: 92%; max-width: 1200px; margin: 0 auto 100px; height: auto; max-height: 78vh; background: transparent !important; border: none !important; border-radius: 60px; display: block; will-change: transform; }
+@media (max-width: 768px) {
+  .scroll-stack-card { margin: 0 auto 40px; max-height: none; }
+  .scroll-stack-inner { padding: 4vh 0 0; }
+}
+.scroll-stack-card > .inner-content { background-color: var(--palette-black) !important; border-radius: 60px !important; padding: 2.5rem !important; display: flex; flex-direction: column; gap: 1.5rem; text-align: left; }
+
+.card-top-row { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+.id-brand-group { display: flex; gap: 1.5rem; align-items: center; }
+.huge-number { font-family: 'Inter', sans-serif; font-size: 5rem; font-weight: 900; line-height: 0.8; color: var(--palette-white); }
+.label { font-size: 1.2rem; text-transform: uppercase; color: var(--palette-white); font-weight: 900; letter-spacing: 0.02em; display: block; }
+.client-name { font-size: 0.85rem; color: var(--palette-white); font-weight: 500; opacity: 0.95; }
+
+.live-btn-star { text-decoration: none; cursor: pointer; transition: transform 0.3s ease; }
+.live-btn-star:hover { transform: scale(1.05); }
+.live-btn-star > .inner-content { background: var(--palette-black) !important; border-radius: 100px !important; padding: 0.8rem 2rem !important; font-size: 0.75rem; font-weight: 700; color: var(--palette-white); text-transform: uppercase; }
+
+.content-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 2rem; height: min(350px, 40vh); flex: 1; align-items: stretch; }
+.main-image { width: 100%; height: 100%; object-fit: cover; border-radius: 40px; }
+.project-description { display: flex; align-items: center; padding: 1.5rem; }
+.project-description p { font-size: 1.3rem; line-height: 1.7; color: var(--palette-white); font-weight: 400; margin: 0; opacity: 0.9; }
+
+@media (max-width: 1024px) {
+  .content-grid { grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .project-description p { font-size: 1rem; }
+}
+@media (max-width: 768px) {
+  .card-top-row { flex-direction: column; align-items: flex-start; gap: 1rem; }
+  .id-brand-group { flex-wrap: wrap; gap: 1rem; }
+  .huge-number { font-size: 3rem; }
+  .label { font-size: 1rem; }
+  .live-btn-star { align-self: flex-start; }
+  .content-grid { grid-template-columns: 1fr; height: auto; gap: 1rem; }
+  .main-image { height: 200px; border-radius: 24px; }
+  .project-description { padding: 0.5rem 0; }
+  .project-description p { font-size: 0.95rem; line-height: 1.6; }
+  .scroll-stack-card { border-radius: 30px; }
+  .scroll-stack-card > .inner-content { border-radius: 30px !important; padding: 1.5rem !important; gap: 1rem; }
+}
+@media (max-width: 480px) {
+  .huge-number { font-size: 2.5rem; }
+  .label { font-size: 0.9rem; }
+  .client-name { font-size: 0.75rem; }
+  .live-btn-star > .inner-content { padding: 0.6rem 1.5rem !important; font-size: 0.7rem; }
+  .main-image { height: 180px; }
+  .project-description p { font-size: 0.85rem; }
+  .scroll-stack-card > .inner-content { padding: 1rem !important; }
+}
+
+.swiss-item-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.25em; color: var(--palette-white); margin-bottom: 1rem; display: block; }
+.swiss-item-number { font-family: 'Inter', sans-serif; font-size: 6rem; font-weight: bold; letter-spacing: -0.05em; line-height: 1; margin-bottom: 1.5rem; color: var(--palette-white); }
+@media (min-width: 768px) { .swiss-item-number { font-size: 8rem; } }
+.swiss-item-desc { max-width: 24rem; font-family: 'Inter', sans-serif; font-size: 1rem; line-height: 1.5; color: color-mix(in srgb, var(--palette-white) 65%, transparent); }
+
+@keyframes marquee-scroll { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-50%, 0, 0); } }
+.marquee-selected-works { width: 100%; overflow: hidden; display: flex; align-items: center; }
+.marquee-selected-works__track { display: flex; white-space: nowrap; align-items: center; animation: marquee-scroll 25s linear infinite; will-change: transform; backface-visibility: hidden; }
+.marquee-selected-works__segment { display: flex; align-items: center; flex-shrink: 0; }
+.marquee-selected-works__text { font-family: 'Inter', sans-serif; font-size: 13vw; font-weight: 900; line-height: 0.8; letter-spacing: -0.05em; text-transform: uppercase; }
+.marquee-selected-works__dash { font-family: 'Inter', sans-serif; font-size: 13vw; font-weight: 300; margin: 0 3vw; transform: translateY(-2px); }
+@media (max-width: 1023px) { .marquee-selected-works__track { animation-duration: 10s; } }
+
+/* Theme-aware card shadow */
+.card-shadow-hover:hover {
+  box-shadow: 0 20px 60px -15px color-mix(in srgb, var(--palette-white) 8%, transparent);
+}
+
+/* Prize card hover backgrounds */
+.prize-hov-gold:hover   { background-color: rgba(250, 204, 21, 0.15) !important; border-color: rgba(250, 204, 21, 0.9) !important; }
+.prize-hov-silver:hover { background-color: rgba(203, 213, 225, 0.15) !important; border-color: rgba(203, 213, 225, 0.9) !important; }
+.prize-hov-bronze:hover { background-color: rgba(217, 119, 6, 0.15) !important; border-color: rgba(217, 119, 6, 0.9) !important; }
+.prize-hov-pink:hover   { background-color: rgba(244, 114, 182, 0.15) !important; border-color: rgba(244, 114, 182, 0.9) !important; }
+.prize-hov-emerald:hover{ background-color: rgba(52, 211, 153, 0.15) !important; border-color: rgba(52, 211, 153, 0.9) !important; }
+
+/* ==========================================================================
+   UNIVERSAL RESPONSIVE & MULTI-DEVICE OPTIMIZATION ENGINE
+   Devices: Mobile, Tablet, Laptop, Desktop, 4K Monitor & Widescreen Projector
+   ========================================================================== */
+
+/* 1. Global Viewport & Overflow Protection (Prevent X-Scroll on Mobile/Tablet) */
+html, body {
+  max-width: 100vw !important;
+  overflow-x: clip !important;
+  box-sizing: border-box !important;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+/* 2. Touch-Friendly Enhancements for Mobile & Tablets (< 1024px) */
+@media (max-width: 1024px) {
+  /* Ensure all interactive buttons & links meet WCAG touch target size guidelines (min 44x44px) */
+  a, button, input, select, textarea, [role="button"], .live-btn-star, .nav-link {
+    min-height: 44px;
+    min-width: 44px;
+    touch-action: manipulation;
+  }
+  
+  /* Smooth inertia scrolling for horizontal tables and sponsor tracks */
+  .overflow-x-auto, .marquee-selected-works, [class*="overflow-x"] {
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .overflow-x-auto::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* 3. Ultra-Compact Mobile Devices (< 380px - iPhone SE, Foldables outer screens) */
+@media (max-width: 380px) {
+  html {
+    font-size: 14px !important;
+  }
+  .huge-number {
+    font-size: 2rem !important;
+  }
+  .swiss-item-number {
+    font-size: 3.5rem !important;
+  }
+  /* Prevent word break on super small screens */
+  h1, h2, h3, .text-[11vw], .text-[13vw] {
+    word-break: break-word;
+    hyphens: auto;
+  }
+  /* Reduce padding in tight containers */
+  .px-4, .px-6, .px-8, .p-5, .p-6 {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+}
+
+/* 4. Standard Mobile & Tablet Viewports (381px to 768px) */
+@media (min-width: 381px) and (max-width: 768px) {
+  html {
+    font-size: 15px !important;
+  }
+  /* Fluid typography spacing for tablets */
+  .py-16, .py-20, .py-32 {
+    padding-top: 3.5rem !important;
+    padding-bottom: 3.5rem !important;
+  }
+  /* Ensure grid cards stack cleanly with adequate breathing room */
+  .grid-cols-2, .grid-cols-3, .grid-cols-4 {
+    gap: 1rem !important;
+  }
+}
+
+/* 5. Laptop & Standard Desktop Displays (1025px to 1440px) */
+@media (min-width: 1025px) and (max-width: 1440px) {
+  html {
+    font-size: 16px !important;
+  }
+  /* Optimal readable line lengths and container padding */
+  .max-w-[1600px], .max-w-[1400px], .max-w-7xl {
+    max-width: 92vw !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
+
+/* 6. High-DPI Desktop & Widescreen Monitors (1441px to 1919px) */
+@media (min-width: 1441px) and (max-width: 1919px) {
+  html {
+    font-size: 17px !important;
+  }
+  .max-w-[1600px] {
+    max-width: 1440px !important;
+  }
+}
+
+/* 7. PROJECTOR & 4K / 8K AUDITORIUM WIDESCREEN DISPLAYS (>= 1920px) 
+   Tailored specifically for Hackathon Presentations, Stage Projectors, and Large Venue Screens! */
+@media (min-width: 1920px) {
+  html {
+    /* Scale root font size up so all em/rem values expand dynamically for distant audience viewing */
+    font-size: 22px !important;
+  }
+
+  /* Expand max container widths for widescreen presentation displays */
+  .max-w-[1600px], .max-w-[1400px], .max-w-7xl, .max-w-6xl, .max-w-5xl, .max-w-4xl {
+    max-width: 86vw !important;
+  }
+
+  /* Boost text contrast & font weight legibility for ambient auditorium lighting on projectors */
+  body, p, span, a, li, .text-white\/70, .text-white\/80, .text-white\/85, .text-black\/70, .text-black\/80 {
+    opacity: 1 !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+  }
+  
+  .dark p, .dark span, .dark .text-neutral-400, .dark .text-neutral-300 {
+    color: #f8fafc !important;
+  }
+
+  /* Increase border thickness and contrast so card boundaries remain sharp on projectors */
+  * {
+    border-color: color-mix(in srgb, var(--border) 100%, var(--palette-white) 25%) !important;
+  }
+
+  /* Scale up buttons and interactive targets for high-resolution presenter displays */
+  button, .inline-flex, a[class*="rounded-full"] {
+    padding-top: 1.2rem !important;
+    padding-bottom: 1.2rem !important;
+    padding-left: 2.5rem !important;
+    padding-right: 2.5rem !important;
+    font-size: 1.1rem !important;
+    border-width: 2px !important;
+  }
+
+  /* Enhance hero headings & countdown timers for maximum auditorium impact */
+  h1, h2, .huge-number, .swiss-item-number {
+    letter-spacing: 0.02em !important;
+    font-weight: 900 !important;
+  }
+
+  /* Ensure modal popups, nav overlays, and video iframes scale appropriately */
+  #nav-overlay {
+    padding-left: 8vw !important;
+    padding-right: 8vw !important;
+  }
+  .iframe-container, iframe {
+    border-width: 2px !important;
+    box-shadow: 0 25px 80px -15px rgba(0, 0, 0, 0.6) !important;
+  }
+}
+
+/* 8. Ultra-Widescreen Stadium / 8K Projectors (>= 2560px) */
+@media (min-width: 2560px) {
+  html {
+    font-size: 28px !important;
+  }
+  .max-w-[1600px], .max-w-[1400px], .max-w-7xl {
+    max-width: 80vw !important;
+  }
+}
+
+/* 9. Projector Aspect Ratio & Ambient Light Compensation Mode
+   Handles legacy 4:3 / 16:10 projectors and presentation displays with high ambient light */
+@media (aspect-ratio: 4/3), (aspect-ratio: 16/10), (prefers-contrast: more) {
+  /* Increase background contrast and reduce blur effects which can look muddy on older projectors */
+  .backdrop-blur-sm, .backdrop-blur-md, .backdrop-blur-lg, [class*="backdrop-blur"] {
+    backdrop-filter: none !important;
+    background-color: var(--background) !important;
+  }
+  
+  /* Ensure text stands out cleanly against backgrounds */
+  .text-white\/50, .text-white\/60, .text-white\/70, .text-black\/50, .text-black\/60, .text-black\/70 {
+    opacity: 0.95 !important;
+  }
+}
+
+/* ==========================================================================
+   HIGH-PERFORMANCE GPU ACCELERATION & ANTI-LAG ENGINE
+   Eliminates scrolling stutter, FPS drops, and backdrop-blur overdraw
+   ========================================================================== */
+
+/* 1. Remove useless GPU-heavy backdrop blur on solid black sections like #partners */
+#partners [class*="backdrop-blur"],
+#partners .backdrop-blur-sm,
+#partners .backdrop-blur-md,
+#partners .backdrop-blur-lg {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* 2. Hardware-accelerate partner and sponsor cards for silky 60/120 FPS scrolling */
+#partners .group {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  will-change: transform, border-color;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease !important;
+}
+
+#partners .group:hover {
+  transform: translateY(-4px) translateZ(0) !important;
+  border-color: rgba(255, 255, 255, 0.4) !important;
+}
+
+/* 3. Optimize hover overlays inside sponsor cards to prevent layout repaints */
+#partners .group > div[class*="opacity-0"] {
+  will-change: opacity;
+  transition: opacity 0.25s ease !important;
+}
+
+/* 4. Optimize all image rendering and prevent decode stutter during scroll */
+#partners img {
+  content-visibility: auto;
+  transform: translateZ(0);
+}
+
+/* 5. Disable Vector Bridge animation on mobile view and display Glimpse directly */
+@media (max-width: 767px) {
+  #vector-bridge {
+    min-height: auto !important;
+    height: auto !important;
+    padding-top: 3rem !important;
+    padding-bottom: 3rem !important;
+    border-top: 4px solid var(--palette-black) !important;
+  }
+  #bridge-svg-container {
+    display: none !important;
+  }
+  #bridge-portal {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    width: 100% !important;
+    max-width: none !important;
+    height: auto !important;
+    margin: 0 !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    border: none !important;
+    background: transparent !important;
+    transform: none !important;
+    overflow: visible !important;
+  }
+  #portal-inner {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    width: 100% !important;
+    height: auto !important;
+    margin: 0 !important;
+    transform: none !important;
+  }
+  /* About section mobile reset */
+  #about-section-container {
+    position: relative !important;
+    inset: auto !important;
+    z-index: 20 !important;
+    height: auto !important;
+    min-height: auto !important;
+    padding-top: 4rem !important;
+    padding-bottom: 4rem !important;
+  }
+  #about {
+    display: none !important;
+  }
+  #about-ctx, #about-ed, #about-exp, #about-foc {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* Community Partners Infinite Marquee Carousel */
+@keyframes cpMarqueeScroll {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.cp-carousel-wrapper {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+  padding: 0.5rem 0;
+}
+
+.cp-carousel-track {
+  display: flex;
+  width: max-content;
+  animation: cpMarqueeScroll 110s linear infinite;
+  will-change: transform;
+}
+
+.cp-carousel-wrapper:hover .cp-carousel-track,
+.cp-carousel-track:hover {
+  animation-play-state: paused;
+}
+
+@media (max-width: 640px) {
+  .cp-carousel-wrapper {
+    mask-image: linear-gradient(to right, transparent 0%, black 3%, black 97%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 3%, black 97%, transparent 100%);
+  }
+  .cp-carousel-track {
+    animation-duration: 85s;
+  }
+}
+
+/* ==========================================
+   GALLERY SCROLL SCENE — support styles
+   (Core visual styles are injected by gallery.js)
+   ========================================== */
+
+/* Hide any leftover decorative elements */
+.gallery-header,
+.stars-layer,
+.scan-line {
+  display: none !important;
+}
+
+/* Ensure the scroll outer wrapper doesn't cause x-overflow */
+#gallerySectionOuter {
+  overflow-x: hidden;
+}
+
+/* The sticky frame fills the viewport exactly */
+#galleryStickyEl {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* The black overlay */
+#galleryBlackOverlay {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  transform-origin: bottom center;
+  transform: scaleY(0);
+  z-index: 9;
+  pointer-events: none;
+}
+
+/* hexRows must NOT have conflicting width constraints.
+   margin:auto (all sides) — not "0 auto" — so it centers vertically in
+   whatever space is left after the title, not just horizontally. */
+#hexRows {
+  position: relative !important;
+  margin: auto !important;
+  /* width / height set by gallery.js dynamically */
+}
+
+
+
