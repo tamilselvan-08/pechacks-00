@@ -114,6 +114,8 @@
          keeps every row on screen instead of overflow:hidden clipping
          the bottom of the grid. */
       .gallery-heading { flex: 0 0 auto; }
+      .desktop-gallery-title { display: block; }
+      .gallery-mobile-title { display: none; }
 
       #galleryTitle {
         font-family: 'Inter', sans-serif;
@@ -132,7 +134,43 @@
       @media (min-width: 1366px) { #galleryTitle { font-size: 96px; } }
       @media (min-width: 1024px) and (max-width: 1365px) { #galleryTitle { font-size: 76px;  } }
       @media (min-width: 768px)  and (max-width: 1023px) { #galleryTitle { font-size: 56px;  } }
-      @media (max-width: 767px)  { #galleryTitle { font-size: 38px;  } }
+      @media (max-width:768px){
+        .desktop-gallery-title{
+            display:none !important;
+        }
+        .gallery-mobile-title{
+            display:block !important;
+            font-size:32px !important;
+            font-weight:900 !important;
+            color:#fff !important;
+            text-align:center !important;
+            margin-bottom:16px !important;
+            letter-spacing:2px !important;
+            text-transform:uppercase !important;
+            z-index:999 !important;
+            opacity:1 !important;
+            transform:none !important;
+            position:relative !important;
+        }
+        #galleryStickyEl{
+            justify-content:center;
+        }
+        #galleryCanvas{
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            justify-content:center;
+            padding-top:20px;
+        }
+        .gallery-heading{
+            flex:0 0 auto;
+            margin-bottom:12px;
+        }
+        #hexRows{
+            margin:0;
+            flex:0 0 auto;
+        }
+      }
 
       #hexRows { position: relative; margin: auto; flex-shrink: 0; }
 
@@ -372,10 +410,12 @@
   function getLayoutConfig(titleBlockHeight) {
     const vw = window.innerWidth;
     const vh = window.innerHeight;
+    const isMobile = vw < 768;
     const rows = ROW_PATTERN.length;
 
-    const topPadding     = Math.max(12, Math.min(32, vh * 0.02));
-    const bottomSafeArea = Math.max(12, Math.min(32, vh * 0.02));
+    // Mobile gets tighter padding so heading + honeycomb both fit.
+    const topPadding     = isMobile ? Math.max(10, vh * 0.015) : Math.max(12, Math.min(32, vh * 0.02));
+    const bottomSafeArea = isMobile ? Math.max(16, vh * 0.03) : Math.max(16, Math.min(40, vh * 0.03));
     const sidePadding    = Math.max(16, vw * 0.03);
 
     const availableHeight = Math.max(60, vh - titleBlockHeight - topPadding - bottomSafeArea);
@@ -473,15 +513,13 @@
   function calculateLayout() {
     if (!hexRows) return;
 
-    // Measure the title's REAL rendered height (font-size already varies
-    // via the @media rules above) so the honeycomb is sized against
-    // actual leftover space, not an assumed/hardcoded title height.
-    const headingEl = document.querySelector('.gallery-heading');
-    let titleBlockHeight = 0;
-    if (headingEl) {
-      titleBlockHeight = headingEl.getBoundingClientRect().height;
-      const titleEl = document.getElementById('galleryTitle');
-      if (titleEl) titleBlockHeight += parseFloat(getComputedStyle(titleEl).marginBottom) || 0;
+    const isMobile = window.innerWidth < 768;
+    let titleBlockHeight;
+    if (isMobile) {
+      titleBlockHeight = 56; // 32px title + margin
+    } else {
+      const headingEl = document.querySelector(".gallery-heading");
+      titleBlockHeight = headingEl ? headingEl.offsetHeight : 0;
     }
 
     const cfg = getLayoutConfig(titleBlockHeight);
@@ -654,18 +692,22 @@
       .forEach(t => t.kill());
 
     const outer = document.getElementById('gallerySectionOuter');
-    const ringCount  = 4;
-    // Increased from 0.5 to 1.0 to give the hold phase (60–80%) enough scroll
-    // distance (~1 viewport height) so the gallery stays fully visible & paused
-    // before scrambling. Also ensures pin doesn't release until animation is
-    // truly complete, so #patrons section stays hidden until then.
-    const vhPerRing  = 1.0;
-    const scrollRoom = window.innerHeight * (1 + ringCount * vhPerRing);
+    const ringCount = 4;
+
+    // ── Responsive scroll multiplier ──────────────────────────────────
+    const vw = window.innerWidth;
+    let scrollMultiplier;
+    if (vw < 768) {
+      scrollMultiplier = 2;
+    } else if (vw < 1024) {
+      scrollMultiplier = 2.5;
+    } else {
+      scrollMultiplier = 3;
+    }
+    const scrollRoom = window.innerHeight * scrollMultiplier;
     outer.style.height = `${scrollRoom}px`;
 
-    // Portal box geometry — same idea as the Vector Bridge's bridge-portal:
-    // a small closed box (with border) that the vertical line drops into,
-    // which then expands via clip-path until it fills the viewport.
+    // Portal box geometry
     const boxW = Math.min(340, window.innerWidth * 0.88);
     const boxH = Math.min(220, window.innerHeight * 0.5);
     const insetX = (window.innerWidth - boxW) / 2;
@@ -691,38 +733,36 @@
         }
       });
 
-      // ── Phase 0: Vertical line drops (0–0.05) ────────────────────────
+      // ── Phase 0: Vertical line drops (0–0.04) ────────────────────────
       tl.fromTo('#galleryBlackOverlay',
         { scaleY: 0 },
-        { scaleY: 1, duration: 0.05, ease: 'none' },
+        { scaleY: 1, duration: 0.04, ease: 'none' },
         0
       );
 
-      // ── Phase 1: The box (strip) expands (0.05–0.20) ───────────────────
-      // Smooth easing, expanding quickly.
+      // ── Phase 1: The box (strip) expands (0.04–0.15) ─────────────────
       tl.fromTo(stickyEl,
         { clipPath: `inset(${insetY}px ${insetX}px ${insetY}px ${insetX}px)` },
-        { clipPath: 'inset(0px 0px 0px 0px)', duration: 0.15, ease: 'power2.inOut' },
-        0.05
+        { clipPath: 'inset(0px 0px 0px 0px)', duration: 0.11, ease: 'power2.inOut' },
+        0.04
       );
       tl.to(stickyEl, {
         borderColor: 'rgba(0,0,0,0)',
-        duration: 0.10,
+        duration: 0.08,
         ease: 'none',
-      }, 0.10);
+      }, 0.08);
 
-      // ── Phase 2: Title reveals IMMEDIATELY as the strip expands (0.05–0.15)
+      // ── Phase 2: Title reveals (0.04–0.12) ───────────────────────────
       tl.fromTo('#galleryTitle',
         { opacity: 0, y: 40 },
-        { opacity: 1, y: 0, duration: 0.10, ease: 'power2.out' },
-        0.05
+        { opacity: 1, y: 0, duration: 0.08, ease: 'power2.out' },
+        0.04
       );
 
-      // ── Phase 3: Honeycomb blooms BEFORE transition completes (starts at 0.12)
-      // The box finishes expanding at 0.20. Bloom starts at 0.12.
-      const bloomStart = 0.12;
-      const bloomEnd    = 0.60;
-      const ringSlot    = (bloomEnd - bloomStart) / ringCount;
+      // ── Phase 3: Honeycomb bloom (0.08–0.45) ─────────────────────────
+      const bloomStart = 0.08;
+      const bloomEnd   = 0.45;
+      const ringSlot   = (bloomEnd - bloomStart) / ringCount;
 
       for (let ring = 0; ring < ringCount; ring++) {
         const ringStart = bloomStart + ring * ringSlot;
@@ -745,13 +785,10 @@
         });
       }
 
-      // ── Phase 4 (60–80%): Fully bloomed — all 24 images held on screen
-      //    long enough to actually look at before anything moves again ──
+      // ── Phase 4 (45–65%): Fully bloomed hold ────────────────────────
 
-      // ── Phase 5 (80–100%): Scramble — cards scatter off in random
-      //    directions/rotations, title + overlay fade out, so the next
-      //    section (mentors grid) is revealed clean once the pin ends ──
-      const scrambleStart = 0.80;
+      // ── Phase 5 (65–100%): Scramble ─────────────────────────────────
+      const scrambleStart = 0.65;
       const scrambleEnd   = 1.0;
       const scrambleSpan  = scrambleEnd - scrambleStart;
 
@@ -774,10 +811,6 @@
         opacity: 0, y: -50, duration: scrambleSpan * 0.55, ease: 'power2.in',
       }, scrambleStart);
 
-      // The line is hidden behind the opaque stickyEl the whole time it's
-      // pinned, but it's position:fixed and NOT part of the pin — without
-      // this it would float over whatever section comes next once the
-      // pin releases and the page scrolls on.
       tl.to('#galleryBlackOverlay', {
         scaleY: 0, duration: scrambleSpan * 0.3, ease: 'none',
       }, scrambleStart + scrambleSpan * 0.6);
