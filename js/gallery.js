@@ -114,8 +114,6 @@
          keeps every row on screen instead of overflow:hidden clipping
          the bottom of the grid. */
       .gallery-heading { flex: 0 0 auto; }
-      .desktop-gallery-title { display: block; }
-      .gallery-mobile-title { display: none; }
 
       #galleryTitle {
         font-family: 'Inter', sans-serif;
@@ -132,44 +130,16 @@
       }
 
       @media (min-width: 1366px) { #galleryTitle { font-size: 96px; } }
-      @media (min-width: 1024px) and (max-width: 1365px) { #galleryTitle { font-size: 76px;  } }
-      @media (min-width: 768px)  and (max-width: 1023px) { #galleryTitle { font-size: 56px;  } }
-      @media (max-width:768px){
-        .desktop-gallery-title{
-            display:none !important;
-        }
-        .gallery-mobile-title{
-            display:block !important;
-            font-size:32px !important;
-            font-weight:900 !important;
-            color:#fff !important;
-            text-align:center !important;
-            margin-bottom:16px !important;
-            letter-spacing:2px !important;
-            text-transform:uppercase !important;
-            z-index:999 !important;
-            opacity:1 !important;
-            transform:none !important;
-            position:relative !important;
-        }
-        #galleryStickyEl{
-            justify-content:center;
-        }
-        #galleryCanvas{
-            display:flex;
-            flex-direction:column;
-            align-items:center;
-            justify-content:center;
-            padding-top:20px;
-        }
-        .gallery-heading{
-            flex:0 0 auto;
-            margin-bottom:12px;
-        }
-        #hexRows{
-            margin:0;
-            flex:0 0 auto;
-        }
+      @media (min-width: 1024px) and (max-width: 1365px) { #galleryTitle { font-size: 76px; } }
+      @media (min-width: 768px)  and (max-width: 1023px) { #galleryTitle { font-size: 56px; margin-bottom: 20px; } }
+      @media (max-width: 767px) {
+        #galleryTitle { font-size: 32px; margin-bottom: 16px; letter-spacing: 0.06em; }
+      }
+
+      @media (max-width: 1023px) {
+        #galleryStickyEl { justify-content: flex-start; }
+        #galleryCanvas   { justify-content: flex-start; }
+        #hexRows         { margin: 0; flex: 0 0 auto; }
       }
 
       #hexRows { position: relative; margin: auto; flex-shrink: 0; }
@@ -413,8 +383,11 @@
     const isMobile = vw < 768;
     const rows = ROW_PATTERN.length;
 
-    // Mobile gets tighter padding so heading + honeycomb both fit.
-    const topPadding     = isMobile ? Math.max(10, vh * 0.015) : Math.max(12, Math.min(32, vh * 0.02));
+    const NAVBAR_H = 76; // matches #mobile-navbar-bg h-[76px]
+
+    const topPadding = isMobile
+      ? NAVBAR_H + 16
+      : Math.max(12, Math.min(32, vh * 0.02));
     const bottomSafeArea = isMobile ? Math.max(16, vh * 0.03) : Math.max(16, Math.min(40, vh * 0.03));
     const sidePadding    = Math.max(16, vw * 0.03);
 
@@ -510,18 +483,20 @@
   // grid's center to that slot — that delta is the "petal" travel
   // distance each hex unfurls along, like petals opening from a bud.
   // ==========================================
+  function measureTitleBlock() {
+    const el = document.getElementById('galleryTitle');
+    if (!el) return 0;
+    const cs = getComputedStyle(el);
+    if (cs.display === 'none') return 0;
+    return el.getBoundingClientRect().height
+         + parseFloat(cs.marginTop  || 0)
+         + parseFloat(cs.marginBottom || 0);
+  }
+
   function calculateLayout() {
     if (!hexRows) return;
 
-    const isMobile = window.innerWidth < 768;
-    let titleBlockHeight;
-    if (isMobile) {
-      titleBlockHeight = 56; // 32px title + margin
-    } else {
-      const headingEl = document.querySelector(".gallery-heading");
-      titleBlockHeight = headingEl ? headingEl.offsetHeight : 0;
-    }
-
+    const titleBlockHeight = measureTitleBlock();
     const cfg = getLayoutConfig(titleBlockHeight);
     rowPattern    = cfg.pattern;
     maxCols       = cfg.maxCols;
@@ -694,18 +669,19 @@
     const outer = document.getElementById('gallerySectionOuter');
     const ringCount = 4;
 
-    // ── Responsive scroll multiplier ──────────────────────────────────
+    // ── Responsive scroll multiplier (Tuned to absolute lowest bounds) ──
     const vw = window.innerWidth;
     let scrollMultiplier;
     if (vw < 768) {
-      scrollMultiplier = 2;
+      scrollMultiplier = 1.5;
     } else if (vw < 1024) {
-      scrollMultiplier = 2.5;
+      scrollMultiplier = 2.0;
     } else {
-      scrollMultiplier = 3;
+      scrollMultiplier = 2.5;
     }
     const scrollRoom = window.innerHeight * scrollMultiplier;
-    outer.style.height = `${scrollRoom}px`;
+    const outerHeight = window.innerHeight + (0.60 * scrollRoom);
+    outer.style.height = `${outerHeight}px`;
 
     // Portal box geometry
     const boxW = Math.min(340, window.innerWidth * 0.88);
@@ -727,41 +703,42 @@
           start: 'top top',
           end: `+=${scrollRoom}`,
           pin: '#galleryStickyEl',
+          pinSpacing: false, // Allows native overlap!
           scrub: 0.6,
           anticipatePin: 1,
           invalidateOnRefresh: true,
         }
       });
 
-      // ── Phase 0: Vertical line drops (0–0.04) ────────────────────────
+      // ── Phase 0: Vertical line drops instantly (0–0.01) ────────────────
       tl.fromTo('#galleryBlackOverlay',
         { scaleY: 0 },
-        { scaleY: 1, duration: 0.04, ease: 'none' },
+        { scaleY: 1, duration: 0.01, ease: 'none' },
         0
       );
 
-      // ── Phase 1: The box (strip) expands (0.04–0.15) ─────────────────
+      // ── Phase 1: The box (strip) expands instantly (0.01–0.04) ──────────
       tl.fromTo(stickyEl,
         { clipPath: `inset(${insetY}px ${insetX}px ${insetY}px ${insetX}px)` },
-        { clipPath: 'inset(0px 0px 0px 0px)', duration: 0.11, ease: 'power2.inOut' },
-        0.04
+        { clipPath: 'inset(0px 0px 0px 0px)', duration: 0.03, ease: 'power2.inOut' },
+        0.01
       );
       tl.to(stickyEl, {
         borderColor: 'rgba(0,0,0,0)',
-        duration: 0.08,
+        duration: 0.02,
         ease: 'none',
-      }, 0.08);
+      }, 0.02);
 
-      // ── Phase 2: Title reveals (0.04–0.12) ───────────────────────────
+      // ── Phase 2: Title reveals instantly (0.01–0.03) ───────────────────
       tl.fromTo('#galleryTitle',
         { opacity: 0, y: 40 },
-        { opacity: 1, y: 0, duration: 0.08, ease: 'power2.out' },
-        0.04
+        { opacity: 1, y: 0, duration: 0.02, ease: 'power2.out' },
+        0.01
       );
 
-      // ── Phase 3: Honeycomb bloom (0.08–0.45) ─────────────────────────
-      const bloomStart = 0.08;
-      const bloomEnd   = 0.45;
+      // ── Phase 3: Honeycomb bloom starts immediately (0.03–0.35) ────────
+      const bloomStart = 0.03;
+      const bloomEnd   = 0.35;
       const ringSlot   = (bloomEnd - bloomStart) / ringCount;
 
       for (let ring = 0; ring < ringCount; ring++) {
@@ -785,10 +762,10 @@
         });
       }
 
-      // ── Phase 4 (45–65%): Fully bloomed hold ────────────────────────
+      // ── Phase 4 (35–60%): Fully bloomed hold ────────────────────────
 
-      // ── Phase 5 (65–100%): Scramble ─────────────────────────────────
-      const scrambleStart = 0.65;
+      // ── Phase 5 (60–100%): Scramble ─────────────────────────────────
+      const scrambleStart = 0.60;
       const scrambleEnd   = 1.0;
       const scrambleSpan  = scrambleEnd - scrambleStart;
 
@@ -809,6 +786,12 @@
 
       tl.to('#galleryTitle', {
         opacity: 0, y: -50, duration: scrambleSpan * 0.55, ease: 'power2.in',
+      }, scrambleStart);
+
+      tl.to(stickyEl, {
+        y: -scrambleSpan * scrollRoom,
+        duration: scrambleSpan,
+        ease: 'none', // Matches natural scroll velocity
       }, scrambleStart);
 
       tl.to('#galleryBlackOverlay', {
@@ -1110,6 +1093,17 @@
     setupLightboxEvents();
 
     window.addEventListener('resize', handleResize);
+
+    if (document.fonts) {
+      document.fonts.ready.then(() => {
+        requestAnimationFrame(() => {
+          calculateLayout();
+          if (window.ScrollTrigger) {
+            window.ScrollTrigger.refresh();
+          }
+        });
+      });
+    }
   }
 
   if (document.readyState === 'loading') {
