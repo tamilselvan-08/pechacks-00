@@ -54,22 +54,7 @@
   <meta name="twitter:image:alt" content="PEC Hacks 4.0 Twitter Banner" />
 
   <!-- Styles & Fonts -->
-  <link rel="stylesheet" href="styles.css?v=3" />
-  <!-- Critical: Hide lightbox before gallery.js injects its CSS, preventing the
-       "MOMENT 01" text from flashing on page load. The JS-injected stylesheet
-       will take over once gallery.js runs. -->
-  <style id="gallery-critical-css">
-    .lightbox-overlay {
-      display: none;
-      opacity: 0;
-      pointer-events: none;
-    }
-    .lightbox-overlay.active {
-      display: flex;
-      opacity: 1;
-      pointer-events: auto;
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
   <link rel="preconnect" href="https://res.cloudinary.com" />
@@ -400,31 +385,6 @@
       <span class="w-[1px] h-8 bg-white/30 flex-shrink-0"></span>
     </div>
 
-    <div class="absolute md:z-30 lg:z-10 hidden md:flex items-center justify-center" style="bottom: 4rem; right: 4rem;">
-      <a href="#contact" class="cta-wrap group relative flex items-center justify-center w-[130px] h-[130px]"
-        aria-label="Get in touch">
-        <svg viewBox="0 0 130 130" class="absolute inset-0 w-full h-full pointer-events-none">
-          <circle cx="65" cy="65" r="62" fill="none" stroke="var(--palette-white)" stroke-opacity="0.6"
-            stroke-width="1.5" />
-        </svg>
-        <svg viewBox="0 0 130 130" class="cta-ring absolute inset-0 w-full h-full pointer-events-none">
-          <defs>
-            <path id="cta-circle-path" d="M65,65 m-50,0 a50,50 0 1,1 100,0 a50,50 0 1,1 -100,0" />
-          </defs>
-          <text fill="var(--palette-white)" font-size="8.5" font-family="'Inter', sans-serif" font-weight="900"
-            letter-spacing="4">
-            <textPath href="#cta-circle-path">GET IN TOUCH · GET IN TOUCH · GET IN TOUCH ·&nbsp;</textPath>
-          </text>
-        </svg>
-        <span
-          class="absolute inset-4 rounded-full bg-white scale-0 group-hover:scale-100 transition-transform duration-500 ease-in-out"
-          style="transform-origin: center;"></span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-          class="relative z-10 w-6 h-6 text-white group-hover:text-black transition-colors duration-300">
-          <path d="M7 17L17 7M17 7H7M17 7v10" />
-        </svg>
-      </a>
-    </div>
 
     <div class="z-10 my-auto flex flex-col gap-5 md:gap-12 w-full items-center" id="hero-text">
       <h1
@@ -454,8 +414,7 @@
               class="inline-flex items-center justify-center w-full max-w-[280px] md:w-auto rounded-full border border-white/40 text-white px-6 py-3 text-xs md:text-sm font-bold uppercase tracking-widest hover:bg-white hover:text-black transition">
               Join our Community
             </a>
-            <a href="https://res.cloudinary.com/dzf0ggbrg/raw/upload/v1783065155/uploads/media-converter/vwdyqyvypgaeymts7muu.pptx"
-              download="PecHacks4.0.pptx" rel="noreferrer"
+            <a href="./assets/PEC Hacks 4.0.pptx" download="PecHacks4.0.pptx" rel="noreferrer"
               class="inline-flex items-center justify-center gap-2 w-full max-w-[280px] md:w-auto rounded-full border border-white/40 text-white px-6 py-3 text-xs md:text-sm font-bold uppercase tracking-widest hover:bg-white hover:text-black transition">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -468,6 +427,18 @@
           </div>
           <div class="apply-button inline-flex items-center justify-center" data-hackathon-slug="pec-hacks"
             data-button-theme="dark-inverted" style="height: 44px; width: 312px"></div>
+          <a href="https://forms.gle/7xx6zUdrH5Ky4kAz8" target="_blank" rel="noreferrer"
+            class="inline-flex items-center justify-center gap-2 w-full max-w-[312px] h-[44px] rounded-full border border-white/40 bg-white/10 backdrop-blur-sm text-white px-6 text-xs md:text-sm font-bold uppercase tracking-widest hover:bg-white hover:text-black transition shadow-lg">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+              <line x1="16" y1="13" x2="8" y2="13" />
+              <line x1="16" y1="17" x2="8" y2="17" />
+              <polyline points="10 9 9 9 8 9" />
+            </svg>
+            <span>High School Form</span>
+          </a>
         </div>
 
         <div class="flex flex-nowrap justify-center md:justify-start gap-2 md:gap-5" id="countdown-container">
@@ -1307,7 +1278,287 @@
               </div>
 
               <!-- Honeycomb -->
-              <div id="hexRows" class="hex-rows"></div>
+              <div id="hexRows" class="hex-rows">
+                <!-- Row 1: 4 hexes -->
+                <div class="hex-row">
+                  <div class="hex-card" tabindex="0" role="button" aria-label="View event photo 1">
+                    <div class="hex-push">
+                      <div class="hex-glow">
+                        <div class="hex-glow-gradient" style="animation-delay: 0s;"></div>
+                      </div>
+                      <div class="hex-inner">
+                        <img class="hex-image" alt="PEC Hacks moment 1" decoding="async" loading="lazy" src="assets/gallery/1.jpg">
+                        <div class="hex-reflection"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="hex-card" tabindex="0" role="button" aria-label="View event photo 2">
+                    <div class="hex-push">
+                      <div class="hex-glow">
+                        <div class="hex-glow-gradient" style="animation-delay: -1s;"></div>
+                      </div>
+                      <div class="hex-inner">
+                        <img class="hex-image" alt="PEC Hacks moment 2" decoding="async" loading="lazy" src="assets/gallery/2.jpg">
+                        <div class="hex-reflection"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="hex-card" tabindex="0" role="button" aria-label="View event photo 3">
+                    <div class="hex-push">
+                      <div class="hex-glow">
+                        <div class="hex-glow-gradient" style="animation-delay: -2s;"></div>
+                      </div>
+                      <div class="hex-inner">
+                        <img class="hex-image" alt="PEC Hacks moment 3" decoding="async" loading="lazy" src="assets/gallery/3.jpg">
+                        <div class="hex-reflection"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="hex-card" tabindex="0" role="button" aria-label="View event photo 4">
+                    <div class="hex-push">
+                      <div class="hex-glow">
+                        <div class="hex-glow-gradient" style="animation-delay: -3s;"></div>
+                      </div>
+                      <div class="hex-inner">
+                        <img class="hex-image" alt="PEC Hacks moment 4" decoding="async" loading="lazy" src="assets/gallery/4.jpg">
+                        <div class="hex-reflection"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Row 2: 5 hexes -->
+                <div class="hex-row">
+                  <div class="hex-card" tabindex="0" role="button" aria-label="View event photo 5">
+                    <div class="hex-push">
+                      <div class="hex-glow">
+                        <div class="hex-glow-gradient" style="animation-delay: -4s;"></div>
+                      </div>
+                      <div class="hex-inner">
+                        <img class="hex-image" alt="PEC Hacks moment 5" decoding="async" loading="lazy" src="assets/gallery/5.jpg">
+                        <div class="hex-reflection"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="hex-card" tabindex="0" role="button" aria-label="View event photo 6">
+                    <div class="hex-push">
+                      <div class="hex-glow">
+                        <div class="hex-glow-gradient" style="animation-delay: -5s;"></div>
+                      </div>
+                      <div class="hex-inner">
+                        <img class="hex-image" alt="PEC Hacks moment 6" decoding="async" loading="lazy" src="assets/gallery/6.jpg">
+                        <div class="hex-reflection"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="hex-card" tabindex="0" role="button" aria-label="View event photo 7">
+                    <div class="hex-push">
+                      <div class="hex-glow">
+                        <div class="hex-glow-gradient" style="animation-delay: -6s;"></div>
+                      </div>
+                      <div class="hex-inner">
+                        <img class="hex-image" alt="PEC Hacks moment 7" decoding="async" loading="lazy" src="assets/gallery/7.jpg">
+                        <div class="hex-reflection"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="hex-card" tabindex="0" role="button" aria-label="View event photo 8">
+                    <div class="hex-push">
+                      <div class="hex-glow">
+                        <div class="hex-glow-gradient" style="animation-delay: 0s;"></div>
+                      </div>
+                      <div class="hex-inner">
+                        <img class="hex-image" alt="PEC Hacks moment 8" decoding="async" loading="lazy" src="assets/gallery/8.jpg">
+                        <div class="hex-reflection"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="hex-card" tabindex="0" role="button" aria-label="View event photo 9">
+                    <div class="hex-push">
+                      <div class="hex-glow">
+                        <div class="hex-glow-gradient" style="animation-delay: -1s;"></div>
+                      </div>
+                      <div class="hex-inner">
+                        <img class="hex-image" alt="PEC Hacks moment 9" decoding="async" loading="lazy" src="assets/gallery/9.jpg">
+                        <div class="hex-reflection"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Row 3: 6 hexes -->
+                <div class="hex-row">
+                  <div class="hex-card" tabindex="0" role="button" aria-label="View event photo 10">
+                    <div class="hex-push">
+                      <div class="hex-glow">
+                        <div class="hex-glow-gradient" style="animation-delay: -2s;"></div>
+                      </div>
+                      <div class="hex-inner">
+                        <img class="hex-image" alt="PEC Hacks moment 10" decoding="async" loading="lazy" src="assets/gallery/10.jpg">
+                        <div class="hex-reflection"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="hex-card" tabindex="0" role="button" aria-label="View event photo 11">
+                    <div class="hex-push">
+                      <div class="hex-glow">
+                        <div class="hex-glow-gradient" style="animation-delay: -3s;"></div>
+                      </div>
+                      <div class="hex-inner">
+                        <img class="hex-image" alt="PEC Hacks moment 11" decoding="async" loading="lazy" src="assets/gallery/11.jpg">
+                        <div class="hex-reflection"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="hex-card" tabindex="0" role="button" aria-label="View event photo 12">
+                    <div class="hex-push">
+                      <div class="hex-glow">
+                        <div class="hex-glow-gradient" style="animation-delay: -4s;"></div>
+                      </div>
+                      <div class="hex-inner">
+                        <img class="hex-image" alt="PEC Hacks moment 12" decoding="async" loading="lazy" src="assets/gallery/12.jpg">
+                        <div class="hex-reflection"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="hex-card" tabindex="0" role="button" aria-label="View event photo 13">
+                    <div class="hex-push">
+                      <div class="hex-glow">
+                        <div class="hex-glow-gradient" style="animation-delay: -5s;"></div>
+                      </div>
+                      <div class="hex-inner">
+                        <img class="hex-image" alt="PEC Hacks moment 13" decoding="async" loading="lazy" src="assets/gallery/13.jpg">
+                        <div class="hex-reflection"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="hex-card" tabindex="0" role="button" aria-label="View event photo 14">
+                    <div class="hex-push">
+                      <div class="hex-glow">
+                        <div class="hex-glow-gradient" style="animation-delay: -6s;"></div>
+                      </div>
+                      <div class="hex-inner">
+                        <img class="hex-image" alt="PEC Hacks moment 14" decoding="async" loading="lazy" src="assets/gallery/14.jpg">
+                        <div class="hex-reflection"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="hex-card" tabindex="0" role="button" aria-label="View event photo 15">
+                    <div class="hex-push">
+                      <div class="hex-glow">
+                        <div class="hex-glow-gradient" style="animation-delay: 0s;"></div>
+                      </div>
+                      <div class="hex-inner">
+                        <img class="hex-image" alt="PEC Hacks moment 15" decoding="async" loading="lazy" src="assets/gallery/15.jpg">
+                        <div class="hex-reflection"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Row 4: 5 hexes -->
+                <div class="hex-row">
+                  <div class="hex-card" tabindex="0" role="button" aria-label="View event photo 16">
+                    <div class="hex-push">
+                      <div class="hex-glow">
+                        <div class="hex-glow-gradient" style="animation-delay: -1s;"></div>
+                      </div>
+                      <div class="hex-inner">
+                        <img class="hex-image" alt="PEC Hacks moment 16" decoding="async" loading="lazy" src="assets/gallery/16.jpg">
+                        <div class="hex-reflection"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="hex-card" tabindex="0" role="button" aria-label="View event photo 17">
+                    <div class="hex-push">
+                      <div class="hex-glow">
+                        <div class="hex-glow-gradient" style="animation-delay: -2s;"></div>
+                      </div>
+                      <div class="hex-inner">
+                        <img class="hex-image" alt="PEC Hacks moment 17" decoding="async" loading="lazy" src="assets/gallery/17.jpg">
+                        <div class="hex-reflection"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="hex-card" tabindex="0" role="button" aria-label="View event photo 18">
+                    <div class="hex-push">
+                      <div class="hex-glow">
+                        <div class="hex-glow-gradient" style="animation-delay: -3s;"></div>
+                      </div>
+                      <div class="hex-inner">
+                        <img class="hex-image" alt="PEC Hacks moment 18" decoding="async" loading="lazy" src="assets/gallery/18.jpg">
+                        <div class="hex-reflection"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="hex-card" tabindex="0" role="button" aria-label="View event photo 19">
+                    <div class="hex-push">
+                      <div class="hex-glow">
+                        <div class="hex-glow-gradient" style="animation-delay: -4s;"></div>
+                      </div>
+                      <div class="hex-inner">
+                        <img class="hex-image" alt="PEC Hacks moment 19" decoding="async" loading="lazy" src="assets/gallery/19.jpg">
+                        <div class="hex-reflection"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="hex-card" tabindex="0" role="button" aria-label="View event photo 20">
+                    <div class="hex-push">
+                      <div class="hex-glow">
+                        <div class="hex-glow-gradient" style="animation-delay: -5s;"></div>
+                      </div>
+                      <div class="hex-inner">
+                        <img class="hex-image" alt="PEC Hacks moment 20" decoding="async" loading="lazy" src="assets/gallery/20.jpg">
+                        <div class="hex-reflection"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Row 5: 4 hexes -->
+                <div class="hex-row">
+                  <div class="hex-card" tabindex="0" role="button" aria-label="View event photo 21">
+                    <div class="hex-push">
+                      <div class="hex-glow">
+                        <div class="hex-glow-gradient" style="animation-delay: -6s;"></div>
+                      </div>
+                      <div class="hex-inner">
+                        <img class="hex-image" alt="PEC Hacks moment 21" decoding="async" loading="lazy" src="assets/gallery/1.jpg">
+                        <div class="hex-reflection"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="hex-card" tabindex="0" role="button" aria-label="View event photo 22">
+                    <div class="hex-push">
+                      <div class="hex-glow">
+                        <div class="hex-glow-gradient" style="animation-delay: 0s;"></div>
+                      </div>
+                      <div class="hex-inner">
+                        <img class="hex-image" alt="PEC Hacks moment 22" decoding="async" loading="lazy" src="assets/gallery/2.jpg">
+                        <div class="hex-reflection"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="hex-card" tabindex="0" role="button" aria-label="View event photo 23">
+                    <div class="hex-push">
+                      <div class="hex-glow">
+                        <div class="hex-glow-gradient" style="animation-delay: -1s;"></div>
+                      </div>
+                      <div class="hex-inner">
+                        <img class="hex-image" alt="PEC Hacks moment 23" decoding="async" loading="lazy" src="assets/gallery/3.jpg">
+                        <div class="hex-reflection"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="hex-card" tabindex="0" role="button" aria-label="View event photo 24">
+                    <div class="hex-push">
+                      <div class="hex-glow">
+                        <div class="hex-glow-gradient" style="animation-delay: -2s;"></div>
+                      </div>
+                      <div class="hex-inner">
+                        <img class="hex-image" alt="PEC Hacks moment 24" decoding="async" loading="lazy" src="assets/gallery/4.jpg">
+                        <div class="hex-reflection"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
             </div>
 
@@ -1316,24 +1567,24 @@
         </div>
 
       </section>
-      <!--  LIGHTBOX -->
-      <div class="lightbox-overlay" id="lightboxOverlay">
-
-        <div class="lightbox-caption" id="lightboxCaption">
-
-          <div class="lightbox-caption-title" id="lightboxCaptionTitle">
-            MOMENT 01
+      <!-- Lightbox overlay -->
+      <div id="lightboxOverlay" class="lightbox-overlay" style="opacity:0; visibility:hidden; pointer-events:none;">
+        <div class="lightbox-image-container">
+          <div class="lightbox-glow">
+            <div class="lightbox-glow-gradient"></div>
           </div>
-
-          <div class="lightbox-caption-sub" id="lightboxCaptionSub">
-            PEC Hacks 4.0 · Event Archive
+          <div class="lightbox-frame">
+            <img id="lightboxImg" class="lightbox-img active" alt="" decoding="async">
           </div>
-
         </div>
-
+        <div id="lightboxCaption" class="lightbox-caption">
+          <div id="lightboxCaptionTitle" class="lightbox-caption-title"></div>
+          <div id="lightboxCaptionSub" class="lightbox-caption-sub"></div>
+        </div>
       </div>
+
+
       <!-- Judges -->
-       
       <div class="hidden bg-black text-white relative z-20 py-16 md:py-32" id="judges">
         <div class="mx-auto max-w-7xl px-6">
           <div class="mb-6">
@@ -1457,7 +1708,6 @@
           </div>
         </div>
       </div>
-
 
       <!--  Workshops  -->
       <div class="hidden bg-black text-white relative z-20 py-16 md:py-32" id="workshops">
@@ -1690,14 +1940,14 @@
             <div class="flex flex-wrap justify-center gap-4 md:gap-6">
 
               <div
-                class="w-[calc(50%-0.5rem)] sm:w-[calc(33.333%-0.75rem)] md:w-[calc(25%-0.75rem)] lg:w-[calc(20%-1rem)] group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
+                class="w-[calc(50%-0.5rem)] sm:w-[calc(33.333%-0.75rem)] md:w-[calc(25%-0.75rem)] lg:w-[calc(20%-1rem)] group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
                 <div class="absolute inset-0 flex items-center justify-center">
                   <img
-                    src="https://res.cloudinary.com/dxer01uj8/image/upload/v1782877742/uploads/media-converter/dq6p5glulzya0b8uobko.png"
+                    src="https://res.cloudinary.com/dxer01uj8/image/upload/f_auto,q_auto,w_400/v1782877742/uploads/media-converter/dq6p5glulzya0b8uobko.png"
                     alt="MLH" class="w-full h-full object-cover" loading="lazy" decoding="async" />
                 </div>
                 <div
-                  class="absolute inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 px-4">
+                  class="absolute inset-0 bg-black/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 px-4">
                   <span class="text-sm md:text-base font-bold text-white text-center leading-tight">MLH (Major League
                     Hacking)</span>
                 </div>
@@ -1711,14 +1961,14 @@
             </h4>
             <div class="flex flex-wrap justify-center gap-4 md:gap-6">
               <div
-                class="w-[calc(50%-0.5rem)] sm:w-[calc(33.333%-0.75rem)] md:w-[calc(25%-0.75rem)] lg:w-[calc(20%-1rem)] group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
+                class="w-[calc(50%-0.5rem)] sm:w-[calc(33.333%-0.75rem)] md:w-[calc(25%-0.75rem)] lg:w-[calc(20%-1rem)] group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
                 <div class="absolute inset-0 flex items-center justify-center">
                   <img
-                    src="https://res.cloudinary.com/dzf0ggbrg/image/upload/v1783566283/uploads/media-converter/vxrslcgkcmfvhaxnsz0x.png"
+                    src="https://res.cloudinary.com/dzf0ggbrg/image/upload/f_auto,q_auto,w_400/v1783566283/uploads/media-converter/vxrslcgkcmfvhaxnsz0x.png"
                     alt="Avasoft" class="w-full h-full object-cover" loading="lazy" decoding="async" />
                 </div>
                 <div
-                  class="absolute inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 px-4">
+                  class="absolute inset-0 bg-black/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 px-4">
                   <span class="text-sm md:text-base font-bold text-white text-center leading-tight">Avasoft</span>
                 </div>
               </div>
@@ -1731,26 +1981,26 @@
             </h4>
             <div class="flex flex-wrap justify-center gap-4 md:gap-6">
               <div
-                class="w-[calc(50%-0.5rem)] sm:w-[calc(33.333%-0.75rem)] md:w-[calc(25%-0.75rem)] lg:w-[calc(20%-1rem)] group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
+                class="w-[calc(50%-0.5rem)] sm:w-[calc(33.333%-0.75rem)] md:w-[calc(25%-0.75rem)] lg:w-[calc(20%-1rem)] group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
                 <div class="absolute inset-0 flex items-center justify-center">
                   <img
-                    src="https://res.cloudinary.com/dzf0ggbrg/image/upload/v1783566279/uploads/media-converter/lbn1oijjzeinmqjndape.png"
+                    src="https://res.cloudinary.com/dzf0ggbrg/image/upload/f_auto,q_auto,w_400/v1783566279/uploads/media-converter/lbn1oijjzeinmqjndape.png"
                     alt="n8n" class="w-full h-full object-cover" loading="lazy" decoding="async" />
                 </div>
                 <div
-                  class="absolute inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 px-4">
+                  class="absolute inset-0 bg-black/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 px-4">
                   <span class="text-sm md:text-base font-bold text-white text-center leading-tight">n8n</span>
                 </div>
               </div>
               <div
-                class="w-[calc(50%-0.5rem)] sm:w-[calc(33.333%-0.75rem)] md:w-[calc(25%-0.75rem)] lg:w-[calc(20%-1rem)] group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
+                class="w-[calc(50%-0.5rem)] sm:w-[calc(33.333%-0.75rem)] md:w-[calc(25%-0.75rem)] lg:w-[calc(20%-1rem)] group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
                 <div class="absolute inset-0 flex items-center justify-center">
                   <img
-                    src="https://res.cloudinary.com/dzf0ggbrg/image/upload/v1783582318/uploads/media-converter/c3jkjdqsq7sgqeewtinc.png"
+                    src="https://res.cloudinary.com/dzf0ggbrg/image/upload/f_auto,q_auto,w_400/v1783582318/uploads/media-converter/c3jkjdqsq7sgqeewtinc.png"
                     alt="Render" class="w-full h-full object-cover" loading="lazy" decoding="async" />
                 </div>
                 <div
-                  class="absolute inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 px-4">
+                  class="absolute inset-0 bg-black/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 px-4">
                   <span class="text-sm md:text-base font-bold text-white text-center leading-tight">Render</span>
                 </div>
               </div>
@@ -1763,64 +2013,64 @@
             </h4>
             <div class="flex flex-wrap justify-center gap-4 md:gap-6">
               <div
-                class="w-[calc(50%-0.5rem)] sm:w-[calc(33.333%-0.75rem)] md:w-[calc(25%-0.75rem)] lg:w-[calc(20%-1rem)] group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
+                class="w-[calc(50%-0.5rem)] sm:w-[calc(33.333%-0.75rem)] md:w-[calc(25%-0.75rem)] lg:w-[calc(20%-1rem)] group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
                 <div class="absolute inset-0 flex items-center justify-center">
                   <img
-                    src="https://res.cloudinary.com/dzf0ggbrg/image/upload/v1783064664/uploads/media-converter/ujvyr3lddrsemxzswsox.jpg"
+                    src="https://res.cloudinary.com/dzf0ggbrg/image/upload/f_auto,q_auto,w_400/v1783064664/uploads/media-converter/ujvyr3lddrsemxzswsox.jpg"
                     alt="Code Crafter" class="w-full h-full object-cover" loading="lazy" decoding="async" />
                 </div>
                 <div
-                  class="absolute inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 px-4">
+                  class="absolute inset-0 bg-black/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 px-4">
                   <span class="text-sm md:text-base font-bold text-white text-center leading-tight">Code Crafter</span>
                 </div>
               </div>
               <div
-                class="w-[calc(50%-0.5rem)] sm:w-[calc(33.333%-0.75rem)] md:w-[calc(25%-0.75rem)] lg:w-[calc(20%-1rem)] group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
+                class="w-[calc(50%-0.5rem)] sm:w-[calc(33.333%-0.75rem)] md:w-[calc(25%-0.75rem)] lg:w-[calc(20%-1rem)] group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
                 <div class="absolute inset-0 flex items-center justify-center">
                   <img
-                    src="https://res.cloudinary.com/dzf0ggbrg/image/upload/v1783308922/uploads/media-converter/htxglxphpmgnugry3toz.png"
+                    src="https://res.cloudinary.com/dzf0ggbrg/image/upload/f_auto,q_auto,w_400/v1783308922/uploads/media-converter/htxglxphpmgnugry3toz.png"
                     alt="NAAVAN AI" class="w-full h-full object-cover" loading="lazy" decoding="async" />
                 </div>
                 <div
-                  class="absolute inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 px-4">
+                  class="absolute inset-0 bg-black/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 px-4">
                   <span class="text-sm md:text-base font-bold text-white text-center leading-tight">NAAVAN AI</span>
                 </div>
               </div>
               <div
-                class="w-[calc(50%-0.5rem)] sm:w-[calc(33.333%-0.75rem)] md:w-[calc(25%-0.75rem)] lg:w-[calc(20%-1rem)] group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
+                class="w-[calc(50%-0.5rem)] sm:w-[calc(33.333%-0.75rem)] md:w-[calc(25%-0.75rem)] lg:w-[calc(20%-1rem)] group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
                 <div class="absolute inset-0 flex items-center justify-center">
                   <img
-                    src="https://res.cloudinary.com/dzf0ggbrg/image/upload/v1783566277/uploads/media-converter/sjl7gbi68w075ymhj5qe.png"
+                    src="https://res.cloudinary.com/dzf0ggbrg/image/upload/f_auto,q_auto,w_400/v1783566277/uploads/media-converter/sjl7gbi68w075ymhj5qe.png"
                     alt="Interview Cake" class="w-full h-full object-cover" loading="lazy" decoding="async" />
                 </div>
                 <div
-                  class="absolute inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 px-4">
+                  class="absolute inset-0 bg-black/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 px-4">
                   <span class="text-sm md:text-base font-bold text-white text-center leading-tight">Interview
                     Cake</span>
                 </div>
               </div>
               <div
-                class="w-[calc(50%-0.5rem)] sm:w-[calc(33.333%-0.75rem)] md:w-[calc(25%-0.75rem)] lg:w-[calc(20%-1rem)] group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
+                class="w-[calc(50%-0.5rem)] sm:w-[calc(33.333%-0.75rem)] md:w-[calc(25%-0.75rem)] lg:w-[calc(20%-1rem)] group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
                 <div class="absolute inset-0 flex items-center justify-center">
                   <img
-                    src="https://res.cloudinary.com/dzf0ggbrg/image/upload/v1783566277/uploads/media-converter/zwjtza90wyoyuwonw4lp.png"
+                    src="https://res.cloudinary.com/dzf0ggbrg/image/upload/f_auto,q_auto,w_400/v1783566277/uploads/media-converter/zwjtza90wyoyuwonw4lp.png"
                     alt="Interview Buddy" class="w-full h-full object-cover" loading="lazy" decoding="async" />
                 </div>
                 <div
-                  class="absolute inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 px-4">
+                  class="absolute inset-0 bg-black/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 px-4">
                   <span class="text-sm md:text-base font-bold text-white text-center leading-tight">Interview
                     Buddy</span>
                 </div>
               </div>
               <div
-                class="w-[calc(50%-0.5rem)] sm:w-[calc(33.333%-0.75rem)] md:w-[calc(25%-0.75rem)] lg:w-[calc(20%-1rem)] group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
+                class="w-[calc(50%-0.5rem)] sm:w-[calc(33.333%-0.75rem)] md:w-[calc(25%-0.75rem)] lg:w-[calc(20%-1rem)] group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
                 <div class="absolute inset-0 flex items-center justify-center">
                   <img
-                    src="https://res.cloudinary.com/dzf0ggbrg/image/upload/v1783410805/uploads/media-converter/jemdkyjgwzg66gsd5qsu.png"
+                    src="https://res.cloudinary.com/dzf0ggbrg/image/upload/f_auto,q_auto,w_400/v1783410805/uploads/media-converter/jemdkyjgwzg66gsd5qsu.png"
                     alt="Wolfram" class="w-full h-full object-cover" loading="lazy" decoding="async" />
                 </div>
                 <div
-                  class="absolute inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 px-4">
+                  class="absolute inset-0 bg-black/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 px-4">
                   <span class="text-sm md:text-base font-bold text-white text-center leading-tight">Wolfram</span>
                 </div>
               </div>
@@ -1833,27 +2083,48 @@
             </h4>
             <div class="flex flex-wrap justify-center gap-4 md:gap-6">
               <div
-                class="w-[calc(50%-0.5rem)] sm:w-[calc(33.333%-0.75rem)] md:w-[calc(25%-0.75rem)] lg:w-[calc(20%-1rem)] group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
+                class="w-[calc(50%-0.5rem)] sm:w-[calc(33.333%-0.75rem)] md:w-[calc(25%-0.75rem)] lg:w-[calc(20%-1rem)] group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
                 <div class="absolute inset-0 flex items-center justify-center">
                   <img
-                    src="https://res.cloudinary.com/dzf0ggbrg/image/upload/v1783067588/uploads/media-converter/cety0memcytjqkx5wpey.png"
+                    src="https://res.cloudinary.com/dzf0ggbrg/image/upload/f_auto,q_auto,w_400/v1783067588/uploads/media-converter/cety0memcytjqkx5wpey.png"
                     alt="xyz" class="w-full h-full object-cover" loading="lazy" decoding="async" />
                 </div>
                 <div
-                  class="absolute inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 px-4">
+                  class="absolute inset-0 bg-black/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 px-4">
                   <span class="text-sm md:text-base font-bold text-white text-center leading-tight">xyz</span>
                 </div>
               </div>
               <div
-                class="w-[calc(50%-0.5rem)] sm:w-[calc(33.333%-0.75rem)] md:w-[calc(25%-0.75rem)] lg:w-[calc(20%-1rem)] group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
+                class="w-[calc(50%-0.5rem)] sm:w-[calc(33.333%-0.75rem)] md:w-[calc(25%-0.75rem)] lg:w-[calc(20%-1rem)] group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
                 <div class="absolute inset-0 flex items-center justify-center">
                   <img
-                    src="https://res.cloudinary.com/dzf0ggbrg/image/upload/v1783064218/uploads/media-converter/frdgcinbsjernvp9e24e.webp"
+                    src="https://res.cloudinary.com/dzf0ggbrg/image/upload/f_auto,q_auto,w_400/v1783064218/uploads/media-converter/frdgcinbsjernvp9e24e.webp"
                     alt="Altruisty" class="w-full h-full object-cover" loading="lazy" decoding="async" />
                 </div>
                 <div
-                  class="absolute inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 px-4">
+                  class="absolute inset-0 bg-black/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 px-4">
                   <span class="text-sm md:text-base font-bold text-white text-center leading-tight">Altruisty</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mb-12 md:mb-20">
+            <h4
+              class="text-sm md:text-base font-bold text-center uppercase tracking-widest text-white/50 mb-6 md:mb-8 border-b border-white/10 pb-3">
+              Internship Partner
+            </h4>
+            <div class="flex flex-wrap justify-center gap-4 md:gap-6">
+              <div
+                class="w-[calc(50%-0.5rem)] sm:w-[calc(33.333%-0.75rem)] md:w-[calc(25%-0.75rem)] lg:w-[calc(20%-1rem)] group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <img
+                    src="https://res.cloudinary.com/dzf0ggbrg/image/upload/f_auto,q_auto,w_400/v1783742389/uploads/media-converter/olbe7q3kdyouosi4kcus.png"
+                    alt="dakhedusolutions" class="w-full h-full object-cover" loading="lazy" decoding="async" />
+                </div>
+                <div
+                  class="absolute inset-0 bg-black/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 px-4">
+                  <span class="text-sm md:text-base font-bold text-white text-center leading-tight">dakh edu
+                    solutions</span>
                 </div>
               </div>
             </div>
@@ -1865,799 +2136,397 @@
             </h4>
             <div class="cp-carousel-wrapper">
               <div class="cp-carousel-track">
-                <!-- First group of 28 partners -->
+                <!-- First group of 12 partners -->
                 <div class="cp-carousel-group flex items-center gap-4 sm:gap-6 pr-4 sm:pr-6">
-                  <!-- 1. GDGoC SRGEC -->
+                  <!-- 1. Code Sapiens -->
                   <div
-                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
-                    <div class="absolute inset-0 flex items-center justify-center p-4">
-                      <img src="assets/cps/srgec(gudlavalleru).png" alt="GDGoC SRGEC"
-                        class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
+                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                      <img
+                        src="https://res.cloudinary.com/dzf0ggbrg/image/upload/f_auto,q_auto,w_400/v1783670526/uploads/media-converter/hect0ubbot7cihvzxokr.png"
+                        alt="Code Sapiens"
+                        class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                         loading="lazy" decoding="async" />
                     </div>
                     <div
-                      class="absolute inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
-                      <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">GDGoC
-                        SRGEC</span>
-                    </div>
-                  </div>
-                  <!-- 2. GDG Paavai -->
-                  <div
-                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
-                    <div class="absolute inset-0 flex items-center justify-center p-4">
-                      <img src="assets/cps/PAAVAI%20LOGO.png" alt="GDG Paavai"
-                        class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy" decoding="async" />
-                    </div>
-                    <div
-                      class="absolute inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
-                      <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">GDG
-                        Paavai</span>
-                    </div>
-                  </div>
-                  <!-- 3. Ascent Circle -->
-                  <div
-                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
-                    <div class="absolute inset-0 flex items-center justify-center p-4">
-                      <img src="assets/cps/THE-ASCENT-CIRCLE.png" alt="Ascent Circle"
-                        class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy" decoding="async" />
-                    </div>
-                    <div
-                      class="absolute inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
-                      <span
-                        class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">Ascent
-                        Circle</span>
-                    </div>
-                  </div>
-                  <!-- 4. Code Krafters -->
-                  <div
-                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
-                    <div class="absolute inset-0 flex items-center justify-center p-4">
-                      <img src="assets/cps/CODE-CRAFTERS(2).png" alt="Code Krafters"
-                        class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy" decoding="async" />
-                    </div>
-                    <div
-                      class="absolute inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
-                      <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">Code
-                        Krafters</span>
-                    </div>
-                  </div>
-                  <!-- 5. Cbe Inst of Tech -->
-                  <div
-                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
-                    <div class="absolute inset-0 flex items-center justify-center p-4">
-                      <img src="assets/cps/CIT-COIMBATORE-LOGO.png" alt="Cbe Inst of Tech"
-                        class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy" decoding="async" />
-                    </div>
-                    <div
-                      class="absolute inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
-                      <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">Cbe
-                        Inst of Tech</span>
-                    </div>
-                  </div>
-                  <!-- 6. Spark tech -->
-                  <div
-                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
-                    <div class="absolute inset-0 flex items-center justify-center p-4">
-                      <img src="assets/cps/SPARK-TECH%20LOGO.png" alt="Spark Tech"
-                        class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy" decoding="async" />
-                    </div>
-                    <div
-                      class="absolute inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
-                      <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">Spark
-                        Tech</span>
-                    </div>
-                  </div>
-                  <!-- 7. GdGoC GNDU -->
-                  <div
-                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
-                    <div class="absolute inset-0 flex items-center justify-center p-4">
-                      <img src="assets/cps/GURU%20NAYAR%20LOGO.png" alt="GDGoC GNDU"
-                        class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy" decoding="async" />
-                    </div>
-                    <div
-                      class="absolute inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
-                      <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">GDGoC
-                        GNDU</span>
-                    </div>
-                  </div>
-                  <!-- 8. CNCF Madurai -->
-                  <div
-                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
-                    <div class="absolute inset-0 flex items-center justify-center p-4">
-                      <img src="assets/cps/CNCF-LOGO.png" alt="CNCF Madurai"
-                        class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy" decoding="async" />
-                    </div>
-                    <div
-                      class="absolute inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
-                      <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">CNCF
-                        Madurai</span>
-                    </div>
-                  </div>
-                  <!-- 9. GDGoC GLAU -->
-                  <div
-                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
-                    <div class="absolute inset-0 flex items-center justify-center p-4">
-                      <img src="assets/cps/GLA-UNIVERSITY%20LOGO.png" alt="GDGoC GLAU"
-                        class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy" decoding="async" />
-                    </div>
-                    <div
-                      class="absolute inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
-                      <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">GDGoC
-                        GLAU</span>
-                    </div>
-                  </div>
-                  <!-- 10. GDG UPES -->
-                  <div
-                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
-                    <div class="absolute inset-0 flex items-center justify-center p-4">
-                      <img src="assets/cps/UNIVERSITY-PETROLEUM-LOGO.png" alt="GDG UPES"
-                        class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy" decoding="async" />
-                    </div>
-                    <div
-                      class="absolute inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
-                      <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">GDG
-                        UPES</span>
-                    </div>
-                  </div>
-                  <!-- 11. Cybrian -->
-                  <div
-                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
-                    <div class="absolute inset-0 flex items-center justify-center p-4">
-                      <img src="assets/cps/CODENEURAX.png" alt="Cybrian"
-                        class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy" decoding="async" />
-                    </div>
-                    <div
-                      class="absolute inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
-                      <span
-                        class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">Cybrian</span>
-                    </div>
-                  </div>
-                  <!-- 12. E Cell VJIT -->
-                  <div
-                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
-                    <div class="absolute inset-0 flex items-center justify-center p-4">
-                      <img src="assets/cps/E-VJIT.png" alt="E Cell VJIT"
-                        class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy" decoding="async" />
-                    </div>
-                    <div
-                      class="absolute inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
-                      <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">E
-                        Cell VJIT</span>
-                    </div>
-                  </div>
-                  <!-- 13. GDGoC CIT -->
-                  <div
-                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
-                    <div class="absolute inset-0 flex items-center justify-center p-4">
-                      <img src="assets/cps/cit-chennai.png" alt="GDGoC CIT"
-                        class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy" decoding="async" />
-                    </div>
-                    <div
-                      class="absolute inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
-                      <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">GDGoC
-                        CIT</span>
-                    </div>
-                  </div>
-                  <!-- 14. GDGoC VIT Chennai -->
-                  <div
-                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
-                    <div class="absolute inset-0 flex items-center justify-center p-4">
-                      <img src="assets/cps/gdg-vit-chennai.png" alt="GDGoC VIT Chennai"
-                        class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy" decoding="async" />
-                    </div>
-                    <div
-                      class="absolute inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
-                      <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">GDGoC
-                        VIT Chennai</span>
-                    </div>
-                  </div>
-                  <!-- 15. GDGoC RCET -->
-                  <div
-                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
-                    <div class="absolute inset-0 flex items-center justify-center p-4">
-                      <img src="assets/cps/RCC-IOT.png" alt="GDGoC RCET"
-                        class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy" decoding="async" />
-                    </div>
-                    <div
-                      class="absolute inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
-                      <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">GDGoC
-                        RCET</span>
-                    </div>
-                  </div>
-                  <!-- 16. GDGoC SVCE -->
-                  <div
-                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
-                    <div class="absolute inset-0 flex items-center justify-center p-4">
-                      <img src="assets/cps/SVCE-LOGO.png" alt="GDGoC SVCE"
-                        class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy" decoding="async" />
-                    </div>
-                    <div
-                      class="absolute inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
-                      <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">GDGoC
-                        SVCE</span>
-                    </div>
-                  </div>
-                  <!-- 17. The Elites -->
-                  <div
-                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
-                    <div class="absolute inset-0 flex items-center justify-center p-4">
-                      <img src="assets/cps/7-ELITES.png" alt="The Elites"
-                        class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy" decoding="async" />
-                    </div>
-                    <div
-                      class="absolute inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
-                      <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">The
-                        Elites</span>
-                    </div>
-                  </div>
-                  <!-- 18. GDGoC IILM GN -->
-                  <div
-                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
-                    <div class="absolute inset-0 flex items-center justify-center p-4">
-                      <img src="assets/cps/iilm-university.png" alt="GDGoC IILM GN"
-                        class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy" decoding="async" />
-                    </div>
-                    <div
-                      class="absolute inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
-                      <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">GDGoC
-                        IILM GN</span>
-                    </div>
-                  </div>
-                  <!-- 19. SPEC NIT Hamirpur -->
-                  <div
-                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
-                    <div class="absolute inset-0 flex items-center justify-center p-4">
-                      <img src="assets/cps/SPEC-NIT-LOGO.png" alt="SPEC NIT Hamirpur"
-                        class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy" decoding="async" />
-                    </div>
-                    <div
-                      class="absolute inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
-                      <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">SPEC
-                        NIT Hamirpur</span>
-                    </div>
-                  </div>
-                  <!-- 20. GDGoC SIMATS -->
-                  <div
-                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
-                    <div class="absolute inset-0 flex items-center justify-center p-4">
-                      <img src="assets/cps/ssn-logo.png" alt="GDGoC SIMATS"
-                        class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy" decoding="async" />
-                    </div>
-                    <div
-                      class="absolute inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
-                      <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">GDGoC
-                        SIMATS</span>
-                    </div>
-                  </div>
-                  <!-- 21. Developer Students Club SRM Ramapuram -->
-                  <div
-                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
-                    <div class="absolute inset-0 flex items-center justify-center p-4">
-                      <img src="assets/cps/DSC-SRM-RMP%20LOGO.png" alt="DSC SRM Ramapuram"
-                        class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy" decoding="async" />
-                    </div>
-                    <div
-                      class="absolute inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
-                      <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">DSC
-                        SRM Ramapuram</span>
-                    </div>
-                  </div>
-                  <!-- 22. Digital Dreamers Den -->
-                  <div
-                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
-                    <div class="absolute inset-0 flex items-center justify-center p-4">
-                      <img src="assets/cps/D3%20LOGO.png" alt="Digital Dreamers Den"
-                        class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy" decoding="async" />
-                    </div>
-                    <div
-                      class="absolute inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
-                      <span
-                        class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">Digital
-                        Dreamers Den</span>
-                    </div>
-                  </div>
-                  <!-- 23. Code On JVM -->
-                  <div
-                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
-                    <div class="absolute inset-0 flex items-center justify-center p-4">
-                      <img src="assets/cps/code-on-jvm.png" alt="Code On JVM"
-                        class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy" decoding="async" />
-                    </div>
-                    <div
-                      class="absolute inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
-                      <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">Code
-                        On JVM</span>
-                    </div>
-                  </div>
-                  <!-- 24. Intelexa REC -->
-                  <div
-                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
-                    <div class="absolute inset-0 flex items-center justify-center p-4">
-                      <img src="assets/cps/INTELLEXA%20LOGO.png" alt="Intelexa REC"
-                        class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy" decoding="async" />
-                    </div>
-                    <div
-                      class="absolute inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
-                      <span
-                        class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">Intelexa
-                        REC</span>
-                    </div>
-                  </div>
-                  <!-- 25. Code Sapiens -->
-                  <div
-                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
-                    <div class="absolute inset-0 flex items-center justify-center p-4">
-                      <img src="assets/cps/CODESAPIENS%20LOGO.png" alt="Code Sapiens"
-                        class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy" decoding="async" />
-                    </div>
-                    <div
-                      class="absolute inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
+                      class="absolute inset-0 bg-black/85 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
                       <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">Code
                         Sapiens</span>
                     </div>
                   </div>
-                  <!-- 26. She Builds -->
+                  <!-- 2. Code On JVM -->
                   <div
-                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
-                    <div class="absolute inset-0 flex items-center justify-center p-4">
-                      <img src="assets/cps/SWOC.png" alt="She Builds"
-                        class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
+                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                      <img
+                        src="https://res.cloudinary.com/dzf0ggbrg/image/upload/f_auto,q_auto,w_400/v1783670529/uploads/media-converter/aqdje0gzvlogarbqkmzi.png"
+                        alt="Code On JVM"
+                        class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                         loading="lazy" decoding="async" />
                     </div>
                     <div
-                      class="absolute inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
+                      class="absolute inset-0 bg-black/85 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
+                      <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">Code
+                        On JVM</span>
+                    </div>
+                  </div>
+                  <!-- 3. Ascent Circle -->
+                  <div
+                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                      <img
+                        src="https://res.cloudinary.com/dzf0ggbrg/image/upload/f_auto,q_auto,w_400/v1783670567/uploads/media-converter/tf4v3ypdmhekbozjbatk.png"
+                        alt="Ascent Cirlce"
+                        class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        loading="lazy" decoding="async" />
+                    </div>
+                    <div
+                      class="absolute inset-0 bg-black/85 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
+                      <span
+                        class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">Ascent
+                        Cirlce</span>
+                    </div>
+                  </div>
+                  <!-- 4. GDG on Campus Seshadri Rao Gudlavalleru Engineering College -->
+                  <div
+                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                      <img
+                        src="https://res.cloudinary.com/dzf0ggbrg/image/upload/f_auto,q_auto,w_400/v1783670574/uploads/media-converter/ifptsz3edjipjliqwb84.png"
+                        alt="GDG on Campus Seshadri Rao Gudlavalleru Engineering College"
+                        class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        loading="lazy" decoding="async" />
+                    </div>
+                    <div
+                      class="absolute inset-0 bg-black/85 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
+                      <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">GDG
+                        on Campus Seshadri Rao Gudlavalleru Engineering College</span>
+                    </div>
+                  </div>
+                  <!-- 5. GDG on campus Paavai -->
+                  <div
+                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                      <img
+                        src="https://res.cloudinary.com/dzf0ggbrg/image/upload/f_auto,q_auto,w_400/v1783670527/uploads/media-converter/bqehlsuddncjync1dvvx.png"
+                        alt="GDG on campus Paavai"
+                        class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        loading="lazy" decoding="async" />
+                    </div>
+                    <div
+                      class="absolute inset-0 bg-black/85 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
+                      <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">GDG
+                        on campus Paavai</span>
+                    </div>
+                  </div>
+                  <!-- 6. GDGoC VIT Chenai -->
+                  <div
+                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                      <img
+                        src="https://res.cloudinary.com/dzf0ggbrg/image/upload/f_auto,q_auto,w_400/v1783670536/uploads/media-converter/nqp30xcmgnzeuw1pld5a.png"
+                        alt="GDGoC VIT Chenai"
+                        class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        loading="lazy" decoding="async" />
+                    </div>
+                    <div
+                      class="absolute inset-0 bg-black/85 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
+                      <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">GDGoC
+                        VIT Chenai</span>
+                    </div>
+                  </div>
+                  <!-- 7. She Builds -->
+                  <div
+                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                      <img
+                        src="https://res.cloudinary.com/dzf0ggbrg/image/upload/f_auto,q_auto,w_400/v1783670538/uploads/media-converter/ay4qpugeu28du9yzp6wk.png"
+                        alt="She Builds"
+                        class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        loading="lazy" decoding="async" />
+                    </div>
+                    <div
+                      class="absolute inset-0 bg-black/85 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
                       <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">She
                         Builds</span>
                     </div>
                   </div>
-                  <!-- 27. GDGoC Meenakshi Sundarajan -->
+                  <!-- 8. IIC PVPSIT -->
                   <div
-                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
-                    <div class="absolute inset-0 flex items-center justify-center p-4">
-                      <img src="assets/cps/ESHWARI%20COE%20LOGO.png" alt="GDGoC Meenakshi Sundarajan"
-                        class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
+                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                      <img
+                        src="https://res.cloudinary.com/dzf0ggbrg/image/upload/f_auto,q_auto,w_400/v1783670566/uploads/media-converter/pdj82dtw6xjlodg0whgm.png"
+                        alt="IIC PVPSIT"
+                        class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                         loading="lazy" decoding="async" />
                     </div>
                     <div
-                      class="absolute inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
-                      <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">GDGoC
-                        Meenakshi Sundarajan</span>
-                    </div>
-                  </div>
-                  <!-- 28. IIC PVPSIT -->
-                  <div
-                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
-                    <div class="absolute inset-0 flex items-center justify-center p-4">
-                      <img src="assets/cps/GVPCE-LOGO.png" alt="IIC PVPSIT"
-                        class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy" decoding="async" />
-                    </div>
-                    <div
-                      class="absolute inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
+                      class="absolute inset-0 bg-black/85 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
                       <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">IIC
                         PVPSIT</span>
+                    </div>
+                  </div>
+                  <!-- 9. Make A Ton -->
+                  <div
+                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                      <img
+                        src="https://res.cloudinary.com/dzf0ggbrg/image/upload/f_auto,q_auto,w_400/v1783670572/uploads/media-converter/wuic8pnfzivz183euqg0.png"
+                        alt="Make A Ton"
+                        class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        loading="lazy" decoding="async" />
+                    </div>
+                    <div
+                      class="absolute inset-0 bg-black/85 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
+                      <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">Make
+                        A Ton</span>
+                    </div>
+                  </div>
+                  <!-- 10. Developers Students Club -->
+                  <div
+                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                      <img
+                        src="https://res.cloudinary.com/dzf0ggbrg/image/upload/f_auto,q_auto,w_400/v1783670586/uploads/media-converter/c6bmeccrznaxxlt5pz82.png"
+                        alt="Developers Students Club"
+                        class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        loading="lazy" decoding="async" />
+                    </div>
+                    <div
+                      class="absolute inset-0 bg-black/85 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
+                      <span
+                        class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">Developers
+                        Students Club</span>
+                    </div>
+                  </div>
+                  <!-- 11. Code Krafters -->
+                  <div
+                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                      <img
+                        src="https://res.cloudinary.com/dzf0ggbrg/image/upload/f_auto,q_auto,w_400/v1783670539/uploads/media-converter/hecbbnqnxdptmesayxwk.png"
+                        alt="Code Krafters"
+                        class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        loading="lazy" decoding="async" />
+                    </div>
+                    <div
+                      class="absolute inset-0 bg-black/85 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
+                      <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">Code
+                        Krafters</span>
+                    </div>
+                  </div>
+                  <!-- 12. GDG on Campus Coimbatore Institute of Technology -->
+                  <div
+                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                      <img
+                        src="https://res.cloudinary.com/dzf0ggbrg/image/upload/f_auto,q_auto,w_400/v1783670587/uploads/media-converter/ll3q7rnr5rmwy3b0r804.png"
+                        alt="GDG on Campus Coimbatore Institute of Technology"
+                        class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        loading="lazy" decoding="async" />
+                    </div>
+                    <div
+                      class="absolute inset-0 bg-black/85 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
+                      <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">GDG
+                        on Campus Coimbatore Institute of Technology</span>
                     </div>
                   </div>
                 </div>
                 <!-- Duplicate group for seamless infinite marquee -->
                 <div class="cp-carousel-group flex items-center gap-4 sm:gap-6 pr-4 sm:pr-6" aria-hidden="true">
-                  <!-- 1. GDGoC SRGEC -->
+                  <!-- 1. Code Sapiens -->
                   <div
-                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
-                    <div class="absolute inset-0 flex items-center justify-center p-4">
-                      <img src="assets/cps/srgec(gudlavalleru).png" alt="GDGoC SRGEC"
-                        class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
+                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                      <img
+                        src="https://res.cloudinary.com/dzf0ggbrg/image/upload/f_auto,q_auto,w_400/v1783670526/uploads/media-converter/hect0ubbot7cihvzxokr.png"
+                        alt="Code Sapiens"
+                        class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                         loading="lazy" decoding="async" />
                     </div>
                     <div
-                      class="absolute inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
-                      <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">GDGoC
-                        SRGEC</span>
-                    </div>
-                  </div>
-                  <!-- 2. GDG Paavai -->
-                  <div
-                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
-                    <div class="absolute inset-0 flex items-center justify-center p-4">
-                      <img src="assets/cps/PAAVAI%20LOGO.png" alt="GDG Paavai"
-                        class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy" decoding="async" />
-                    </div>
-                    <div
-                      class="absolute inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
-                      <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">GDG
-                        Paavai</span>
-                    </div>
-                  </div>
-                  <!-- 3. Ascent Circle -->
-                  <div
-                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
-                    <div class="absolute inset-0 flex items-center justify-center p-4">
-                      <img src="assets/cps/THE-ASCENT-CIRCLE.png" alt="Ascent Circle"
-                        class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy" decoding="async" />
-                    </div>
-                    <div
-                      class="absolute inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
-                      <span
-                        class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">Ascent
-                        Circle</span>
-                    </div>
-                  </div>
-                  <!-- 4. Code Krafters -->
-                  <div
-                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
-                    <div class="absolute inset-0 flex items-center justify-center p-4">
-                      <img src="assets/cps/CODE-CRAFTERS(2).png" alt="Code Krafters"
-                        class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy" decoding="async" />
-                    </div>
-                    <div
-                      class="absolute inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
-                      <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">Code
-                        Krafters</span>
-                    </div>
-                  </div>
-                  <!-- 5. Cbe Inst of Tech -->
-                  <div
-                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
-                    <div class="absolute inset-0 flex items-center justify-center p-4">
-                      <img src="assets/cps/CIT-COIMBATORE-LOGO.png" alt="Cbe Inst of Tech"
-                        class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy" decoding="async" />
-                    </div>
-                    <div
-                      class="absolute inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
-                      <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">Cbe
-                        Inst of Tech</span>
-                    </div>
-                  </div>
-                  <!-- 6. Spark tech -->
-                  <div
-                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
-                    <div class="absolute inset-0 flex items-center justify-center p-4">
-                      <img src="assets/cps/SPARK-TECH%20LOGO.png" alt="Spark Tech"
-                        class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy" decoding="async" />
-                    </div>
-                    <div
-                      class="absolute inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
-                      <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">Spark
-                        Tech</span>
-                    </div>
-                  </div>
-                  <!-- 7. GdGoC GNDU -->
-                  <div
-                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
-                    <div class="absolute inset-0 flex items-center justify-center p-4">
-                      <img src="assets/cps/GURU%20NAYAR%20LOGO.png" alt="GDGoC GNDU"
-                        class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy" decoding="async" />
-                    </div>
-                    <div
-                      class="absolute inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
-                      <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">GDGoC
-                        GNDU</span>
-                    </div>
-                  </div>
-                  <!-- 8. CNCF Madurai -->
-                  <div
-                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
-                    <div class="absolute inset-0 flex items-center justify-center p-4">
-                      <img src="assets/cps/CNCF-LOGO.png" alt="CNCF Madurai"
-                        class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy" decoding="async" />
-                    </div>
-                    <div
-                      class="absolute inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
-                      <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">CNCF
-                        Madurai</span>
-                    </div>
-                  </div>
-                  <!-- 9. GDGoC GLAU -->
-                  <div
-                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
-                    <div class="absolute inset-0 flex items-center justify-center p-4">
-                      <img src="assets/cps/GLA-UNIVERSITY%20LOGO.png" alt="GDGoC GLAU"
-                        class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy" decoding="async" />
-                    </div>
-                    <div
-                      class="absolute inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
-                      <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">GDGoC
-                        GLAU</span>
-                    </div>
-                  </div>
-                  <!-- 10. GDG UPES -->
-                  <div
-                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
-                    <div class="absolute inset-0 flex items-center justify-center p-4">
-                      <img src="assets/cps/UNIVERSITY-PETROLEUM-LOGO.png" alt="GDG UPES"
-                        class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy" decoding="async" />
-                    </div>
-                    <div
-                      class="absolute inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
-                      <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">GDG
-                        UPES</span>
-                    </div>
-                  </div>
-                  <!-- 11. Cybrian -->
-                  <div
-                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
-                    <div class="absolute inset-0 flex items-center justify-center p-4">
-                      <img src="assets/cps/CODENEURAX.png" alt="Cybrian"
-                        class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy" decoding="async" />
-                    </div>
-                    <div
-                      class="absolute inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
-                      <span
-                        class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">Cybrian</span>
-                    </div>
-                  </div>
-                  <!-- 12. E Cell VJIT -->
-                  <div
-                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
-                    <div class="absolute inset-0 flex items-center justify-center p-4">
-                      <img src="assets/cps/E-VJIT.png" alt="E Cell VJIT"
-                        class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy" decoding="async" />
-                    </div>
-                    <div
-                      class="absolute inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
-                      <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">E
-                        Cell VJIT</span>
-                    </div>
-                  </div>
-                  <!-- 13. GDGoC CIT -->
-                  <div
-                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
-                    <div class="absolute inset-0 flex items-center justify-center p-4">
-                      <img src="assets/cps/cit-chennai.png" alt="GDGoC CIT"
-                        class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy" decoding="async" />
-                    </div>
-                    <div
-                      class="absolute inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
-                      <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">GDGoC
-                        CIT</span>
-                    </div>
-                  </div>
-                  <!-- 14. GDGoC VIT Chennai -->
-                  <div
-                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
-                    <div class="absolute inset-0 flex items-center justify-center p-4">
-                      <img src="assets/cps/gdg-vit-chennai.png" alt="GDGoC VIT Chennai"
-                        class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy" decoding="async" />
-                    </div>
-                    <div
-                      class="absolute inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
-                      <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">GDGoC
-                        VIT Chennai</span>
-                    </div>
-                  </div>
-                  <!-- 15. GDGoC RCET -->
-                  <div
-                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
-                    <div class="absolute inset-0 flex items-center justify-center p-4">
-                      <img src="assets/cps/RCC-IOT.png" alt="GDGoC RCET"
-                        class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy" decoding="async" />
-                    </div>
-                    <div
-                      class="absolute inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
-                      <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">GDGoC
-                        RCET</span>
-                    </div>
-                  </div>
-                  <!-- 16. GDGoC SVCE -->
-                  <div
-                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
-                    <div class="absolute inset-0 flex items-center justify-center p-4">
-                      <img src="assets/cps/SVCE-LOGO.png" alt="GDGoC SVCE"
-                        class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy" decoding="async" />
-                    </div>
-                    <div
-                      class="absolute inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
-                      <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">GDGoC
-                        SVCE</span>
-                    </div>
-                  </div>
-                  <!-- 17. The Elites -->
-                  <div
-                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
-                    <div class="absolute inset-0 flex items-center justify-center p-4">
-                      <img src="assets/cps/7-ELITES.png" alt="The Elites"
-                        class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy" decoding="async" />
-                    </div>
-                    <div
-                      class="absolute inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
-                      <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">The
-                        Elites</span>
-                    </div>
-                  </div>
-                  <!-- 18. GDGoC IILM GN -->
-                  <div
-                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
-                    <div class="absolute inset-0 flex items-center justify-center p-4">
-                      <img src="assets/cps/iilm-university.png" alt="GDGoC IILM GN"
-                        class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy" decoding="async" />
-                    </div>
-                    <div
-                      class="absolute inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
-                      <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">GDGoC
-                        IILM GN</span>
-                    </div>
-                  </div>
-                  <!-- 19. SPEC NIT Hamirpur -->
-                  <div
-                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
-                    <div class="absolute inset-0 flex items-center justify-center p-4">
-                      <img src="assets/cps/SPEC-NIT-LOGO.png" alt="SPEC NIT Hamirpur"
-                        class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy" decoding="async" />
-                    </div>
-                    <div
-                      class="absolute inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
-                      <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">SPEC
-                        NIT Hamirpur</span>
-                    </div>
-                  </div>
-                  <!-- 20. GDGoC SIMATS -->
-                  <div
-                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
-                    <div class="absolute inset-0 flex items-center justify-center p-4">
-                      <img src="assets/cps/ssn-logo.png" alt="GDGoC SIMATS"
-                        class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy" decoding="async" />
-                    </div>
-                    <div
-                      class="absolute inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
-                      <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">GDGoC
-                        SIMATS</span>
-                    </div>
-                  </div>
-                  <!-- 21. Developer Students Club SRM Ramapuram -->
-                  <div
-                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
-                    <div class="absolute inset-0 flex items-center justify-center p-4">
-                      <img src="assets/cps/DSC-SRM-RMP%20LOGO.png" alt="DSC SRM Ramapuram"
-                        class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy" decoding="async" />
-                    </div>
-                    <div
-                      class="absolute inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
-                      <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">DSC
-                        SRM Ramapuram</span>
-                    </div>
-                  </div>
-                  <!-- 22. Digital Dreamers Den -->
-                  <div
-                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
-                    <div class="absolute inset-0 flex items-center justify-center p-4">
-                      <img src="assets/cps/D3%20LOGO.png" alt="Digital Dreamers Den"
-                        class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy" decoding="async" />
-                    </div>
-                    <div
-                      class="absolute inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
-                      <span
-                        class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">Digital
-                        Dreamers Den</span>
-                    </div>
-                  </div>
-                  <!-- 23. Code On JVM -->
-                  <div
-                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
-                    <div class="absolute inset-0 flex items-center justify-center p-4">
-                      <img src="assets/cps/code-on-jvm.png" alt="Code On JVM"
-                        class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy" decoding="async" />
-                    </div>
-                    <div
-                      class="absolute inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
-                      <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">Code
-                        On JVM</span>
-                    </div>
-                  </div>
-                  <!-- 24. Intelexa REC -->
-                  <div
-                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
-                    <div class="absolute inset-0 flex items-center justify-center p-4">
-                      <img src="assets/cps/INTELLEXA%20LOGO.png" alt="Intelexa REC"
-                        class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy" decoding="async" />
-                    </div>
-                    <div
-                      class="absolute inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
-                      <span
-                        class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">Intelexa
-                        REC</span>
-                    </div>
-                  </div>
-                  <!-- 25. Code Sapiens -->
-                  <div
-                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
-                    <div class="absolute inset-0 flex items-center justify-center p-4">
-                      <img src="assets/cps/CODESAPIENS%20LOGO.png" alt="Code Sapiens"
-                        class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy" decoding="async" />
-                    </div>
-                    <div
-                      class="absolute inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
+                      class="absolute inset-0 bg-black/85 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
                       <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">Code
                         Sapiens</span>
                     </div>
                   </div>
-                  <!-- 26. She Builds -->
+                  <!-- 2. Code On JVM -->
                   <div
-                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
-                    <div class="absolute inset-0 flex items-center justify-center p-4">
-                      <img src="assets/cps/SWOC.png" alt="She Builds"
-                        class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
+                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                      <img
+                        src="https://res.cloudinary.com/dzf0ggbrg/image/upload/f_auto,q_auto,w_400/v1783670529/uploads/media-converter/aqdje0gzvlogarbqkmzi.png"
+                        alt="Code On JVM"
+                        class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                         loading="lazy" decoding="async" />
                     </div>
                     <div
-                      class="absolute inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
+                      class="absolute inset-0 bg-black/85 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
+                      <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">Code
+                        On JVM</span>
+                    </div>
+                  </div>
+                  <!-- 3. Ascent Circle -->
+                  <div
+                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                      <img
+                        src="https://res.cloudinary.com/dzf0ggbrg/image/upload/f_auto,q_auto,w_400/v1783670567/uploads/media-converter/tf4v3ypdmhekbozjbatk.png"
+                        alt="Ascent Cirlce"
+                        class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        loading="lazy" decoding="async" />
+                    </div>
+                    <div
+                      class="absolute inset-0 bg-black/85 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
+                      <span
+                        class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">Ascent
+                        Cirlce</span>
+                    </div>
+                  </div>
+                  <!-- 4. GDG on Campus Seshadri Rao Gudlavalleru Engineering College -->
+                  <div
+                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                      <img
+                        src="https://res.cloudinary.com/dzf0ggbrg/image/upload/f_auto,q_auto,w_400/v1783670574/uploads/media-converter/ifptsz3edjipjliqwb84.png"
+                        alt="GDG on Campus Seshadri Rao Gudlavalleru Engineering College"
+                        class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        loading="lazy" decoding="async" />
+                    </div>
+                    <div
+                      class="absolute inset-0 bg-black/85 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
+                      <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">GDG
+                        on Campus Seshadri Rao Gudlavalleru Engineering College</span>
+                    </div>
+                  </div>
+                  <!-- 5. GDG on campus Paavai -->
+                  <div
+                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                      <img
+                        src="https://res.cloudinary.com/dzf0ggbrg/image/upload/f_auto,q_auto,w_400/v1783670527/uploads/media-converter/bqehlsuddncjync1dvvx.png"
+                        alt="GDG on campus Paavai"
+                        class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        loading="lazy" decoding="async" />
+                    </div>
+                    <div
+                      class="absolute inset-0 bg-black/85 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
+                      <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">GDG
+                        on campus Paavai</span>
+                    </div>
+                  </div>
+                  <!-- 6. GDGoC VIT Chenai -->
+                  <div
+                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                      <img
+                        src="https://res.cloudinary.com/dzf0ggbrg/image/upload/f_auto,q_auto,w_400/v1783670536/uploads/media-converter/nqp30xcmgnzeuw1pld5a.png"
+                        alt="GDGoC VIT Chenai"
+                        class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        loading="lazy" decoding="async" />
+                    </div>
+                    <div
+                      class="absolute inset-0 bg-black/85 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
+                      <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">GDGoC
+                        VIT Chenai</span>
+                    </div>
+                  </div>
+                  <!-- 7. She Builds -->
+                  <div
+                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                      <img
+                        src="https://res.cloudinary.com/dzf0ggbrg/image/upload/f_auto,q_auto,w_400/v1783670538/uploads/media-converter/ay4qpugeu28du9yzp6wk.png"
+                        alt="She Builds"
+                        class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        loading="lazy" decoding="async" />
+                    </div>
+                    <div
+                      class="absolute inset-0 bg-black/85 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
                       <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">She
                         Builds</span>
                     </div>
                   </div>
-                  <!-- 27. GDGoC Meenakshi Sundarajan -->
+                  <!-- 8. IIC PVPSIT -->
                   <div
-                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
-                    <div class="absolute inset-0 flex items-center justify-center p-4">
-                      <img src="assets/cps/ESHWARI%20COE%20LOGO.png" alt="GDGoC Meenakshi Sundarajan"
-                        class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
+                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                      <img
+                        src="https://res.cloudinary.com/dzf0ggbrg/image/upload/f_auto,q_auto,w_400/v1783670566/uploads/media-converter/pdj82dtw6xjlodg0whgm.png"
+                        alt="IIC PVPSIT"
+                        class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                         loading="lazy" decoding="async" />
                     </div>
                     <div
-                      class="absolute inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
-                      <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">GDGoC
-                        Meenakshi Sundarajan</span>
-                    </div>
-                  </div>
-                  <!-- 28. IIC PVPSIT -->
-                  <div
-                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
-                    <div class="absolute inset-0 flex items-center justify-center p-4">
-                      <img src="assets/cps/GVPCE-LOGO.png" alt="IIC PVPSIT"
-                        class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy" decoding="async" />
-                    </div>
-                    <div
-                      class="absolute inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
+                      class="absolute inset-0 bg-black/85 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
                       <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">IIC
                         PVPSIT</span>
+                    </div>
+                  </div>
+                  <!-- 9. Make A Ton -->
+                  <div
+                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                      <img
+                        src="https://res.cloudinary.com/dzf0ggbrg/image/upload/f_auto,q_auto,w_400/v1783670572/uploads/media-converter/wuic8pnfzivz183euqg0.png"
+                        alt="Make A Ton"
+                        class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        loading="lazy" decoding="async" />
+                    </div>
+                    <div
+                      class="absolute inset-0 bg-black/85 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
+                      <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">Make
+                        A Ton</span>
+                    </div>
+                  </div>
+                  <!-- 10. Developers Students Club -->
+                  <div
+                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                      <img
+                        src="https://res.cloudinary.com/dzf0ggbrg/image/upload/f_auto,q_auto,w_400/v1783670586/uploads/media-converter/c6bmeccrznaxxlt5pz82.png"
+                        alt="Developers Students Club"
+                        class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        loading="lazy" decoding="async" />
+                    </div>
+                    <div
+                      class="absolute inset-0 bg-black/85 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
+                      <span
+                        class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">Developers
+                        Students Club</span>
+                    </div>
+                  </div>
+                  <!-- 11. Code Krafters -->
+                  <div
+                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                      <img
+                        src="https://res.cloudinary.com/dzf0ggbrg/image/upload/f_auto,q_auto,w_400/v1783670539/uploads/media-converter/hecbbnqnxdptmesayxwk.png"
+                        alt="Code Krafters"
+                        class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        loading="lazy" decoding="async" />
+                    </div>
+                    <div
+                      class="absolute inset-0 bg-black/85 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
+                      <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">Code
+                        Krafters</span>
+                    </div>
+                  </div>
+                  <!-- 12. GDG on Campus Coimbatore Institute of Technology -->
+                  <div
+                    class="w-[180px] sm:w-[200px] md:w-[230px] flex-shrink-0 group relative aspect-[3/2] rounded-2xl border border-white/10 bg-white/5 overflow-hidden flex items-center justify-center hover:border-white/30 transition-all duration-300">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                      <img
+                        src="https://res.cloudinary.com/dzf0ggbrg/image/upload/f_auto,q_auto,w_400/v1783670587/uploads/media-converter/ll3q7rnr5rmwy3b0r804.png"
+                        alt="GDG on Campus Coimbatore Institute of Technology"
+                        class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        loading="lazy" decoding="async" />
+                    </div>
+                    <div
+                      class="absolute inset-0 bg-black/85 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-3">
+                      <span class="text-xs sm:text-sm md:text-base font-bold text-white text-center leading-tight">GDG
+                        on Campus Coimbatore Institute of Technology</span>
                     </div>
                   </div>
                 </div>
@@ -4129,11 +3998,8 @@
   </div>
   </div>
 
-  <script src="main.js?v=2"></script>
-  <!-- GSAP + ScrollTrigger for cinematic gallery scroll animation -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script src="js/gallery.js?v=9"></script>
+  <script src="main.js"></script>
+  <script src="js/gallery.js"></script>
   <script defer async src="https://apply.devfolio.co/v2/sdk.js"></script>
 </body>
 

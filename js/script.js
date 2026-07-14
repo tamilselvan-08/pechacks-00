@@ -20,6 +20,19 @@
     });
     gsap.ticker.lagSmoothing(0, 0);
 
+    // Mark active scrolling on <body>. On mobile, CSS uses this to pause the rotating
+    // blurred border behind the Domains stack cards, so it isn't competing with the
+    // scroll-driven stacking transform for the same animation frame (see styles.css).
+    let scrollStopTimer;
+    document.body.classList.add('is-scrolling');
+    const markScrollStopped = () => document.body.classList.remove('is-scrolling');
+    scrollStopTimer = setTimeout(markScrollStopped, 150);
+    lenis.on('scroll', () => {
+        document.body.classList.add('is-scrolling');
+        clearTimeout(scrollStopTimer);
+        scrollStopTimer = setTimeout(markScrollStopped, 150);
+    });
+
     // 2. Cursor Follower
     const cursor = document.getElementById('cursor-follower');
     if (cursor) {
